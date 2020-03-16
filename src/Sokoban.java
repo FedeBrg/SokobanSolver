@@ -5,7 +5,7 @@ public class Sokoban {
     int cols;
 
     Sokoban(){
-
+        cols = 15;
     }
 
     Board movePlayer(Board b, int dx, int dy){
@@ -66,6 +66,7 @@ public class Sokoban {
         }
 
         c = b.getBoard().charAt(boxPos);
+        System.out.println("El c es"+c);
         if(c == '%'){
             leftBehind = '.';
         }
@@ -74,15 +75,50 @@ public class Sokoban {
         }
 
         char[] boardArray = b.getBoard().toCharArray();
-        boardArray[x+y*cols] = leftBehind;
+        boardArray[boxPos] = leftBehind;
         boardArray[newPos] = replacement;
-
 
         return movePlayer(new Board(new String(boardArray),b.getSolution(),x,y),dx,dy);
     }
 
+    void printBoard(Board b){
+        char[] board = b.getBoard().toCharArray();
+        int j = 0;
+        while(j<board.length){
+            for(int i = 0;i<cols;i++){
+                System.out.print(board[j]);
+                j++;
+
+            }
+            System.out.println();
+        }
+    }
+
     boolean isSolution(String board){
         return false;
+    }
+
+    public static void main(String[] arg){
+
+        String level2 = "      ###      " +
+                        "      #.#      " +
+                        "  #####.#####  " +
+                        " ##         ## " +
+                        "##  # # # #  ##" +
+                        "#  ##     ##  #" +
+                        "# ##  # #  ## #" +
+                        "#     $@$     #" +
+                        "####  ###  ####" +
+                        "   #### ####   ";
+
+        Sokoban s = new Sokoban();
+        Board b = new Board(level2,"",7,7);
+        s.printBoard(b);
+        System.out.println();
+        Board newB = s.pushBox(b,1,0);
+        if(newB != null) {
+            s.printBoard(newB);
+        }
     }
 
 
