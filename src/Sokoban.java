@@ -1,5 +1,6 @@
 import javafx.beans.binding.MapExpression;
 
+import java.awt.*;
 import java.util.*;
 
 public class Sokoban {
@@ -14,6 +15,7 @@ public class Sokoban {
     Board movePlayer(Board b, int dx, int dy) {
         int x = b.getPlayerx();
         int y = b.getPlayery();
+
 
         int newPos = x+dx+(y+dy)*cols;
         int playerPos = x+y*cols;
@@ -59,6 +61,10 @@ public class Sokoban {
         char replacement;
         char leftBehind;
 
+        if(checkDeadlock(b,x+(2*dx), (y+(2*dy))*cols)){
+            return null;
+        }
+
         char c = b.getBoard().charAt(newPos);
         if(c == '#' || c == '$' || c == '%'){
             return null;
@@ -71,7 +77,6 @@ public class Sokoban {
         }
 
         c = b.getBoard().charAt(boxPos);
-//        System.out.println("El c es"+c);
         if(c == '%'){
             leftBehind = '.';
         }
@@ -84,6 +89,27 @@ public class Sokoban {
         boardArray[newPos] = replacement;
 
         return movePlayer(new Board(new String(boardArray),b.getSolution(),x,y),dx,dy);
+    }
+
+    boolean checkDeadlock(Board b, int xBox, int yBox){
+        int [][] positions = {{-1,-1},{1,-1},{1,1},{-1,1}};
+
+
+        for (int[] pos : positions) {
+            int p1 = xBox+pos[0] + yBox*cols;
+            int p2 = xBox + (yBox+pos[1])*cols;
+            if(p1 < b.getBoard().length() && p2<b.getBoard().length() && p1>0 && p2>0){
+                char c1 = b.getBoard().charAt(p1);
+                char c2 = b.getBoard().charAt(p2);
+//            System.out.printf("%c %c\n",c1,c2);
+                if(c1 == '#'  && c2 == '#'){
+                    return true;
+                }
+            }
+
+        }
+
+        return false;
     }
 
     Board move(Board b, int dx, int dy){
@@ -190,22 +216,26 @@ public class Sokoban {
                         "   #####     ";
 
 
-
         Sokoban s = new Sokoban();
+
         Board b = new Board(level1,level1,5,6);
-//        s.printBoard(b);
-//        System.out.println();
-//        Board newB = s.move(b,0,-1);
-//         newB = s.move(newB,0,-1);
-//
-//        if(newB != null) {
-//            s.printBoard(newB);
-//        }
+
+        String dead =   "#######" +
+                        "#     #" +
+                        "#     #" +
+                        "#. #  #" +
+                        "#. $$ #" +
+                        "#.$   #" +
+                        "#.#$ @#" +
+                        "#######";
+
+//        Board test = new Board(dead,dead,5,6);
+//        System.out.println(s.checkDeadlock(test,3,6));
 
 
-        //s.solveByDFS(b);
- s.printSolution((s.solveByBFS(b)));
-//       s.solveByBFS(b);
+//        s.solveByDFS(b);
+        s.printSolution((s.solveByDFS(b)));
+//        s.solveByBFS(b);
 //        System.out.println(s.solveByBFS(b).getSolution());
     }
 
