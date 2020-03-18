@@ -44,4 +44,16 @@ public class Board {
         this.playery = playery;
     }
 
+    public void printBoard(int cols){
+        for(int i = 0; i < board.length(); i++){
+            if(i % cols == 0){
+                System.out.print("\n");
+            }
+            System.out.printf("%c",board.charAt(i));
+        }
+
+
+        System.out.println("\n");
+        System.out.println("\n");
+    }
 }
