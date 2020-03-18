@@ -8,7 +8,7 @@ public class Sokoban {
     static int cols;
 
     Sokoban(){
-        cols = 15;
+        cols = 7;
     }
 
     Board movePlayer(Board b, int dx, int dy) {
@@ -71,7 +71,7 @@ public class Sokoban {
         }
 
         c = b.getBoard().charAt(boxPos);
-        System.out.println("El c es"+c);
+//        System.out.println("El c es"+c);
         if(c == '%'){
             leftBehind = '.';
         }
@@ -114,6 +114,27 @@ public class Sokoban {
         }
     }
 
+    void printSolution(Board b){
+        char[] board = b.getSolution().toCharArray();
+        char[] aux = b.getBoard().toCharArray();
+        int j = 0;
+        int t = 0;
+        while(t < board.length) {
+            System.out.printf("\npaso N%d\n",(t/56));
+
+            while (j < aux.length) {
+                for (int i = 0; i < cols; i++) {
+                    System.out.print(board[t]);
+                    j++;
+                    t++;
+                }
+                System.out.println();
+            }
+            j=0;
+        }
+
+    }
+
     static boolean isSolution(Board board){
         return !board.getBoard().contains(".") && !board.getBoard().contains("O");
     }
@@ -131,8 +152,47 @@ public class Sokoban {
                         "####  ###  ####" +
                         "   #### ####   ";
 
+        String level3 = " ###########     " +
+                        "##         ##    " +
+                        "#  $     $  #    " +
+                        "# $# #.# #$ #    " +
+                        "#    #*#    #####" +
+                        "#  ###.###  #   #" +
+                        "#  .*.@.*.      #" +
+                        "#  ###.###  #   #" +
+                        "#    #*#    #####" +
+                        "# $# #.# #$ #    " +
+                        "#  $     $  #    " +
+                        "##         ##    " +
+                        " ###########     ";
+
+        String level1 = "#######" +
+                        "#     #" +
+                        "#     #" +
+                        "#. #  #" +
+                        "#. $$ #" +
+                        "#.$$  #" +
+                        "#.#  @#" +
+                        "#######";
+
+        String level4 = "     #####   " +
+                        "     #   #   " +
+                        "     #   #   " +
+                        "#### #   #   " +
+                        "#  ####$#####" +
+                        "#           #" +
+                        "# .## # ##. #" +
+                        "#           #" +
+                        "#####$####  #" +
+                        "   #   # ####" +
+                        "   # @ #     " +
+                        "   #   #     " +
+                        "   #####     ";
+
+
+
         Sokoban s = new Sokoban();
-        Board b = new Board(level2,"",7,7);
+        Board b = new Board(level1,level1,5,6);
 //        s.printBoard(b);
 //        System.out.println();
 //        Board newB = s.move(b,0,-1);
@@ -143,8 +203,10 @@ public class Sokoban {
 //        }
 
 
-        s.solveByDFS(b);
-        //s.solveByBFS(b);
+        //s.solveByDFS(b);
+ s.printSolution((s.solveByBFS(b)));
+//       s.solveByBFS(b);
+//        System.out.println(s.solveByBFS(b).getSolution());
     }
 
      Board solveByDFS(Board b){
@@ -154,8 +216,8 @@ public class Sokoban {
         int [][] directions = {{1,0},{0,1},{-1,0},{0,-1}};
 
         if(isSolution(b)){
-            System.out.println("SOLUCION!!!!\n");
-            b.printBoard(cols);
+//            System.out.println("SOLUCION!!!!\n");
+//            b.printBoard(cols);
             return b;
         }
         else if(visited.containsKey(b.getBoard())){
@@ -216,18 +278,21 @@ public class Sokoban {
 
         while(!boardQueue.isEmpty()){
             currentBoard = boardQueue.poll();
-            if (isSolution(currentBoard)) {
-                System.out.printf("SOLUCION en I = %d !!!!\n",i);
-                currentBoard.printBoard(cols);
-                return currentBoard;
-            }
+
 
             while(visited.containsKey(currentBoard.getBoard())){
                 currentBoard = boardQueue.poll();
             }
+
+            if (isSolution(currentBoard)) {
+                System.out.printf("SOLUCION en I = %d !!!!\n",i);
+                currentBoard.printBoard(cols);
+                boardQueue.clear();
+                return currentBoard;
+            }
             i++;
             visited.put(currentBoard.getBoard(), currentBoard);
-            currentBoard.printBoard(cols);
+//            currentBoard.printBoard(cols);
 
             for (int[] direction : directions) {
                 if ((resultBoard = move(currentBoard, direction[0], direction[1])) != null) {
