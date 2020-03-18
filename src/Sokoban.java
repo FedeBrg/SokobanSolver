@@ -23,60 +23,11 @@ public class Sokoban {
         boolean boxIsBeingMoved = false;
 
         char c = b.getBoard().charAt(newPos);
-        char aux;
+
         if(c == '#'){
             return null;
         }
-        else if(c == '$'){
-            boxIsBeingMoved = true;
-            if(dx == 1){
-                aux = b.getBoard().charAt(newPos+1);
-                if(aux == '$' || aux == '#'){
-                    return null;
-                }
-                else{
-                    boardArray = b.getBoard().toCharArray();
-                    boardArray[newPos+1] = '$';
-                    replacement = '@';
-                }
-            }
 
-            else if(dx == -1){
-                aux = b.getBoard().charAt(newPos-1);
-                if(aux == '$' || aux == '#'){
-                    return null;
-                }
-                else{
-                    boardArray = b.getBoard().toCharArray();
-                    boardArray[newPos-1] = '$';
-                    replacement = '@';
-                }
-            }
-
-            else if(dy == 1){
-                aux = b.getBoard().charAt(newPos+cols);
-                if(aux == '$' || aux == '#'){
-                    return null;
-                }
-                else{
-                    boardArray = b.getBoard().toCharArray();
-                    boardArray[newPos+cols] = '$';
-                    replacement = '@';
-                }
-            }
-
-            else{
-                aux = b.getBoard().charAt(newPos-cols);
-                if(aux == '$' || aux == '#'){
-                    return null;
-                }
-                else{
-                    boardArray = b.getBoard().toCharArray();
-                    boardArray[newPos-cols] = '$';
-                    replacement = '@';
-                }
-            }
-        }
         else if(c == '.'){
             replacement = 'O';
         }
@@ -92,9 +43,6 @@ public class Sokoban {
             leftBehind = ' ';
         }
 
-        if(!boxIsBeingMoved){
-            boardArray = b.getBoard().toCharArray();
-        }
 
 
         boardArray[playerPos] = leftBehind;
@@ -139,6 +87,21 @@ public class Sokoban {
         return movePlayer(new Board(new String(boardArray),b.getSolution(),x,y),dx,dy);
     }
 
+    Board move(Board b, int dx, int dy){
+        int x = b.getPlayerx();
+        int y = b.getPlayery();
+        int newPos = x+dx + (y+dy)*cols;
+
+        char c = b.getBoard().charAt(newPos);
+        if(c == '$' || c == '%'){
+            return pushBox(b,dx,dy);
+        }
+        else{
+            return movePlayer(b,dx,dy);
+        }
+    }
+
+
     void printBoard(Board b){
         char[] board = b.getBoard().toCharArray();
         int j = 0;
@@ -165,7 +128,7 @@ public class Sokoban {
                         "##  # # # #  ##" +
                         "#  ##     ##  #" +
                         "# ##  # #  ## #" +
-                        "#     $@$     #" +
+                        "#    .$@$     #" +
                         "####  ###  ####" +
                         "   #### ####   ";
 
@@ -173,14 +136,16 @@ public class Sokoban {
         Board b = new Board(level2,"",7,7);
         s.printBoard(b);
         System.out.println();
-        //Board newB = s.pushBox(b,1,0);
-        //if(newB != null) {
-        //    s.printBoard(newB);
-        //}
+        Board newB = s.move(b,0,-1);
+         newB = s.move(newB,0,-1);
+
+        if(newB != null) {
+            s.printBoard(newB);
+        }
 
 
         //solveByDFS(b);
-        solveByBFS(b);
+        //solveByBFS(b);
     }
 
     static Board solveByDFS(Board b){
