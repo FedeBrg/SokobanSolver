@@ -2,6 +2,7 @@ import javafx.beans.binding.MapExpression;
 
 import java.awt.*;
 import java.util.*;
+import java.util.List;
 
 public class Sokoban {
     static HashMap<String, Board> visited = new HashMap<>();
@@ -49,7 +50,7 @@ public class Sokoban {
         boardArray[playerPos] = leftBehind;
         boardArray[newPos] = replacement;
 
-        return new Board(new String(boardArray),b.getSolution().concat(new String((boardArray))),x+dx,y+dy);
+        return new Board(new String(boardArray), b.getSolution().concat(new String((boardArray))), b.getBoardSizex(),b.getBoardSizey(), x + dx, y + dy);
     }
 
     Board pushBox(Board b, int dx, int dy){
@@ -86,7 +87,7 @@ public class Sokoban {
         boardArray[boxPos] = leftBehind;
         boardArray[newPos] = replacement;
 
-        Board rtb = movePlayer(new Board(new String(boardArray),b.getSolution(),x,y),dx,dy);
+        Board rtb = movePlayer(new Board(new String(boardArray),b.getSolution(), b.getBoardSizex(), b.getBoardSizey(),x,y),dx,dy);
 
         if(checkDeadlock(b,x+(2*dx), (y+(2*dy))) && !isSolution(rtb)){
             return null;
@@ -222,7 +223,7 @@ public class Sokoban {
 
         Sokoban s = new Sokoban();
 
-        Board b = new Board(level1,level1,5,6);
+        Board b = new Board(level1,level1,7,8,5,6);
 
         String dead =   "#######" +
                         "#     #" +
@@ -353,5 +354,44 @@ public class Sokoban {
         }
 
         return null;
+    }
+
+    public int manhattanHeuristic(Board b) {
+        List<Point> boxes = new ArrayList<>();
+        List<Point> bins = new ArrayList<>();
+        Point p;
+
+        char[] boardArray = b.getBoard().toCharArray();
+        for(int i = 0; i < boardArray.length; i++){
+            if(boardArray[i] == '.' || boardArray[i] == 'O') {
+                p = new Point(i % b.getBoardSizex(), i / b.getBoardSizex());
+                bins.add(p);
+            } else if(boardArray[i] == '$'){
+                p = new Point(i % b.getBoardSizex(), i / b.getBoardSizex());
+                boxes.add(p);
+            }
+        }
+
+        //for(Point point : boxes){
+        //    System.out.printf("BOX: X = %d, Y = %d\n", point.x, point.y);
+        //}
+
+        //for(Point point : bins){
+        //    System.out.printf("BIN: X = %d, Y = %d\n", point.x, point.y);
+        //}
+
+        List<Integer> heuristicList = new ArrayList<>();
+        int toReturn = 0;
+
+        for(Point box : boxes){
+            for(Point bin : bins){
+                heuristicList.add(Math.abs(box.x-bin.x) + Math.abs(box.y-bin.y));
+            }
+
+            toReturn += Collections.max(heuristicList);
+            heuristicList.clear();
+        }
+
+        return toReturn;
     }
 }

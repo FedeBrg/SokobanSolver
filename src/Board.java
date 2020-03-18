@@ -2,12 +2,17 @@ public class Board {
     private String board;
     private String solution;
 
+    private int boardSizex;
+    private int boardSizey;
+
     private int playerx;
     private int playery;
 
-    public Board(String board, String solution, int playerx, int playery) {
+    public Board(String board, String solution, int boardSizex, int boardSizey, int playerx, int playery) {
         this.board = board;
         this.solution = solution;
+        this.boardSizex = boardSizex;
+        this.boardSizey = boardSizey;
         this.playerx = playerx;
         this.playery = playery;
     }
@@ -55,5 +60,21 @@ public class Board {
 
         System.out.println("\n");
         System.out.println("\n");
+    }
+
+    public int getBoardSizex() {
+        return boardSizex;
+    }
+
+    public void setBoardSizex(int boardSizex) {
+        this.boardSizex = boardSizex;
+    }
+
+    public int getBoardSizey() {
+        return boardSizey;
+    }
+
+    public void setBoardSizey(int boardSizey) {
+        this.boardSizey = boardSizey;
     }
 }
