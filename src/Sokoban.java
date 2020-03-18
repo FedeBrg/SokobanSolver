@@ -61,9 +61,7 @@ public class Sokoban {
         char replacement;
         char leftBehind;
 
-        if(checkDeadlock(b,x+(2*dx), (y+(2*dy))*cols)){
-            return null;
-        }
+
 
         char c = b.getBoard().charAt(newPos);
         if(c == '#' || c == '$' || c == '%'){
@@ -88,7 +86,13 @@ public class Sokoban {
         boardArray[boxPos] = leftBehind;
         boardArray[newPos] = replacement;
 
-        return movePlayer(new Board(new String(boardArray),b.getSolution(),x,y),dx,dy);
+        Board rtb = movePlayer(new Board(new String(boardArray),b.getSolution(),x,y),dx,dy);
+
+        if(checkDeadlock(b,x+(2*dx), (y+(2*dy))) && !isSolution(rtb)){
+            return null;
+        }
+
+        return rtb;
     }
 
     boolean checkDeadlock(Board b, int xBox, int yBox){
@@ -195,10 +199,10 @@ public class Sokoban {
         String level1 = "#######" +
                         "#     #" +
                         "#     #" +
-                        "#. #  #" +
-                        "#. $$ #" +
-                        "#.$$  #" +
-                        "#.#  @#" +
+                        "#     #" +
+                        "#  $  #" +
+                        "#     #" +
+                        "#.   @#" +
                         "#######";
 
         String level4 = "     #####   " +
@@ -233,8 +237,8 @@ public class Sokoban {
 //        System.out.println(s.checkDeadlock(test,3,6));
 
 
-//        s.solveByDFS(b);
-        s.printSolution((s.solveByDFS(b)));
+        s.solveByDFS(b);
+        //s.printSolution((s.solveByDFS(b)));
 //        s.solveByBFS(b);
 //        System.out.println(s.solveByBFS(b).getSolution());
     }
@@ -246,8 +250,9 @@ public class Sokoban {
         int [][] directions = {{1,0},{0,1},{-1,0},{0,-1}};
 
         if(isSolution(b)){
-//            System.out.println("SOLUCION!!!!\n");
-//            b.printBoard(cols);
+            System.out.println("SOLUCION!!!!\n");
+            printSolution(b);
+            //b.printBoard(cols);
             return b;
         }
         else if(visited.containsKey(b.getBoard())){
@@ -259,7 +264,7 @@ public class Sokoban {
 
             for (int[] direction : directions) {
                 if ((resultBoard = move(b, direction[0], direction[1])) != null) {
-                    resultBoard.printBoard(cols);
+                    //resultBoard.printBoard(cols);
                     nextStep = solveByDFS(resultBoard);
                 }
             }
@@ -289,7 +294,7 @@ public class Sokoban {
                 str = new StringBuilder(b.getSolution());
                 //str.deleteCharAt(str.length() - 1);
                 b.setSolution(str.toString());
-                visited.remove(b.getBoard());
+                //visited.remove(b.getBoard());
             }
 
             return nextStep;
