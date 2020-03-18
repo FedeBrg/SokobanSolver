@@ -11,7 +11,7 @@ public class Sokoban {
         cols = 15;
     }
 
-    static Board movePlayer(Board b, int dx, int dy) {
+    Board movePlayer(Board b, int dx, int dy) {
         int x = b.getPlayerx();
         int y = b.getPlayery();
 
@@ -20,7 +20,6 @@ public class Sokoban {
         char replacement;
         char leftBehind;
         char[] boardArray = b.getBoard().toCharArray();
-        boolean boxIsBeingMoved = false;
 
         char c = b.getBoard().charAt(newPos);
 
@@ -128,29 +127,31 @@ public class Sokoban {
                         "##  # # # #  ##" +
                         "#  ##     ##  #" +
                         "# ##  # #  ## #" +
-                        "#    .$@$     #" +
+                        "#     $@$     #" +
                         "####  ###  ####" +
                         "   #### ####   ";
 
         Sokoban s = new Sokoban();
         Board b = new Board(level2,"",7,7);
-        s.printBoard(b);
-        System.out.println();
-        Board newB = s.move(b,0,-1);
-         newB = s.move(newB,0,-1);
+//        s.printBoard(b);
+//        System.out.println();
+//        Board newB = s.move(b,0,-1);
+//         newB = s.move(newB,0,-1);
+//
+//        if(newB != null) {
+//            s.printBoard(newB);
+//        }
 
-        if(newB != null) {
-            s.printBoard(newB);
-        }
 
-
-        //solveByDFS(b);
-        //solveByBFS(b);
+        s.solveByDFS(b);
+        //s.solveByBFS(b);
     }
 
-    static Board solveByDFS(Board b){
+     Board solveByDFS(Board b){
         Board resultBoard = null;
         Board nextStep = null;
+
+        int [][] directions = {{1,0},{0,1},{-1,0},{0,-1}};
 
         if(isSolution(b)){
             System.out.println("SOLUCION!!!!\n");
@@ -164,25 +165,32 @@ public class Sokoban {
         else{
             visited.put(b.getBoard(), b);
 
-            if((resultBoard = movePlayer(b,1,0)) != null){
-                resultBoard.printBoard(cols);
-                nextStep = solveByDFS(resultBoard);
+            for (int[] direction : directions) {
+                if ((resultBoard = move(b, direction[0], direction[1])) != null) {
+                    resultBoard.printBoard(cols);
+                    nextStep = solveByDFS(resultBoard);
+                }
             }
 
-            if((resultBoard = movePlayer(b,0,1)) != null){
-                resultBoard.printBoard(cols);
-                nextStep = solveByDFS(resultBoard);
-            }
-
-            if((resultBoard = movePlayer(b,-1,0)) != null){
-                resultBoard.printBoard(cols);
-                nextStep = solveByDFS(resultBoard);
-            }
-
-            if((resultBoard = movePlayer(b,0,-1)) != null){
-                resultBoard.printBoard(cols);
-                nextStep = solveByDFS(resultBoard);
-            }
+//            if((resultBoard = move(b,1,0)) != null){
+//                resultBoard.printBoard(cols);
+//                nextStep = solveByDFS(resultBoard);
+//            }
+//
+//            if((resultBoard = move(b,0,1)) != null){
+//                resultBoard.printBoard(cols);
+//                nextStep = solveByDFS(resultBoard);
+//            }
+//
+//            if((resultBoard = move(b,-1,0)) != null){
+//                resultBoard.printBoard(cols);
+//                nextStep = solveByDFS(resultBoard);
+//            }
+//
+//            if((resultBoard = move(b,0,-1)) != null){
+//                resultBoard.printBoard(cols);
+//                nextStep = solveByDFS(resultBoard);
+//            }
 
             if(nextStep == null){
                 StringBuilder str;
@@ -196,10 +204,13 @@ public class Sokoban {
         }
     }
 
-    static Board solveByBFS(Board b){
+    Board solveByBFS(Board b){
         int i = 0;
         Board resultBoard;
         Board currentBoard;
+        int [][] directions = {{1,0},{0,1},{-1,0},{0,-1}};
+
+
         Deque<Board> boardQueue = new ArrayDeque<>();
         boardQueue.add(b);
 
@@ -218,21 +229,27 @@ public class Sokoban {
             visited.put(currentBoard.getBoard(), currentBoard);
             currentBoard.printBoard(cols);
 
-            if((resultBoard = movePlayer(currentBoard,1,0)) != null){
-                boardQueue.add(resultBoard);
+            for (int[] direction : directions) {
+                if ((resultBoard = move(currentBoard, direction[0], direction[1])) != null) {
+                    boardQueue.add(resultBoard);
+                }
             }
 
-            if((resultBoard = movePlayer(currentBoard,0,1)) != null){
-                boardQueue.add(resultBoard);
-            }
-
-            if((resultBoard = movePlayer(currentBoard,-1,0)) != null){
-                boardQueue.add(resultBoard);
-            }
-
-            if((resultBoard = movePlayer(currentBoard,0,-1)) != null){
-                boardQueue.add(resultBoard);
-            }
+//            if((resultBoard = move(currentBoard,1,0)) != null){
+//                boardQueue.add(resultBoard);
+//            }
+//
+//            if((resultBoard = move(currentBoard,0,1)) != null){
+//                boardQueue.add(resultBoard);
+//            }
+//
+//            if((resultBoard = move(currentBoard,-1,0)) != null){
+//                boardQueue.add(resultBoard);
+//            }
+//
+//            if((resultBoard = move(currentBoard,0,-1)) != null){
+//                boardQueue.add(resultBoard);
+//            }
         }
 
         return null;
