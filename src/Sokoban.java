@@ -4,11 +4,12 @@ import java.util.List;
 
 public class Sokoban {
     static HashMap<String, Board> visited = new HashMap<>();
+    private HashMap<String, Integer> specialVisited = new HashMap<>();
 
     static int cols;
 
     Sokoban(){
-        cols = 17;
+        cols = 13;
     }
 
     Board movePlayer(Board b, int dx, int dy) {
@@ -49,7 +50,6 @@ public class Sokoban {
         boardArray[newPos] = replacement;
 
         return new Board(new String(boardArray), b.getSolution().concat(new String((boardArray))), b.getBoardSizex(),b.getBoardSizey(), x + dx, y + dy);
-
     }
 
     Board pushBox(Board b, int dx, int dy){
@@ -190,6 +190,10 @@ public class Sokoban {
     }
 
     void printSolution(Board b){
+        if(b == null){
+            return;
+        }
+
         char[] board = b.getSolution().toCharArray();
         char[] aux = b.getBoard().toCharArray();
         int j = 0;
@@ -267,8 +271,8 @@ public class Sokoban {
 
         Sokoban s = new Sokoban();
 
-        Board b = new Board(level3,level3,17,13,6,6);
-//        System.out.println(s.checkMapDeadlock(b));
+        Board b = new Board(level2,level2,15,10,7,7);
+        Board b2 = new Board(level4, level4, 13, 13, 5,10);
 
         String dead =   "#######" +
                         "#     #" +
@@ -279,13 +283,8 @@ public class Sokoban {
                         "#.#$ @#" +
                         "#######";
 
-//        Board test = new Board(dead,dead,5,6);
-//        System.out.println(s.checkDeadlock(test,3,6));
-
-       // s.solveByDFS(b);
-//        s.solveByBFS(b);
-//        s.solveByBFS(b);
-//        System.out.println(s.solveByBFS(b).getSolution());
+        //s.printSolution(s.solveByBFS(b));
+        s.printSolution(s.solveByIDDFS(b2, 60));
     }
 
      Board solveByDFS(Board b){
@@ -297,7 +296,6 @@ public class Sokoban {
         if(isSolution(b)){
             System.out.println("SOLUCION!!!!\n");
             printSolution(b);
-            //b.printBoard(cols);
             return b;
         }
         else if(visited.containsKey(b.getBoard())){
@@ -309,37 +307,8 @@ public class Sokoban {
 
             for (int[] direction : directions) {
                 if ((resultBoard = move(b, direction[0], direction[1])) != null) {
-                    //resultBoard.printBoard(cols);
                     nextStep = solveByDFS(resultBoard);
                 }
-            }
-
-//            if((resultBoard = move(b,1,0)) != null){
-//                resultBoard.printBoard(cols);
-//                nextStep = solveByDFS(resultBoard);
-//            }
-//
-//            if((resultBoard = move(b,0,1)) != null){
-//                resultBoard.printBoard(cols);
-//                nextStep = solveByDFS(resultBoard);
-//            }
-//
-//            if((resultBoard = move(b,-1,0)) != null){
-//                resultBoard.printBoard(cols);
-//                nextStep = solveByDFS(resultBoard);
-//            }
-//
-//            if((resultBoard = move(b,0,-1)) != null){
-//                resultBoard.printBoard(cols);
-//                nextStep = solveByDFS(resultBoard);
-//            }
-
-            if(nextStep == null){
-                StringBuilder str;
-                str = new StringBuilder(b.getSolution());
-                //str.deleteCharAt(str.length() - 1);
-                b.setSolution(str.toString());
-                //visited.remove(b.getBoard());
             }
 
             return nextStep;
@@ -352,7 +321,6 @@ public class Sokoban {
         Board currentBoard;
         int [][] directions = {{1,0},{0,1},{-1,0},{0,-1}};
 
-
         Deque<Board> boardQueue = new ArrayDeque<>();
         boardQueue.add(b);
 
@@ -362,40 +330,26 @@ public class Sokoban {
 
             while(visited.containsKey(currentBoard.getBoard())){
                 currentBoard = boardQueue.poll();
+                if(currentBoard == null){
+                    System.out.println("There is no solution :(\n");
+                    return null;
+                }
             }
 
             if (isSolution(currentBoard)) {
                 System.out.printf("SOLUCION en I = %d !!!!\n",i);
-                //currentBoard.printBoard(cols);
                 boardQueue.clear();
                 return currentBoard;
             }
 
             i++;
             visited.put(currentBoard.getBoard(), currentBoard);
-//            currentBoard.printBoard(cols);
 
             for (int[] direction : directions) {
                 if ((resultBoard = move(currentBoard, direction[0], direction[1])) != null) {
                     boardQueue.add(resultBoard);
                 }
             }
-
-//            if((resultBoard = move(currentBoard,1,0)) != null){
-//                boardQueue.add(resultBoard);
-//            }
-//
-//            if((resultBoard = move(currentBoard,0,1)) != null){
-//                boardQueue.add(resultBoard);
-//            }
-//
-//            if((resultBoard = move(currentBoard,-1,0)) != null){
-//                boardQueue.add(resultBoard);
-//            }
-//
-//            if((resultBoard = move(currentBoard,0,-1)) != null){
-//                boardQueue.add(resultBoard);
-//            }
         }
 
         return null;
@@ -480,6 +434,38 @@ public class Sokoban {
         }
 
         return null;
+    }
+
+
+    public Board solveByIDDFS(Board b, int depth){
+        Board resultBoard = null;
+        Board nextStep = null;
+        int [][] directions = {{1,0},{0,1},{-1,0},{0,-1}};
+
+        if(isSolution(b)){
+            printSolution(b);
+            return b;
+        }
+
+        else if(specialVisited.containsKey(b.getBoard()) && specialVisited.get(b.getBoard()) >= depth){
+            return null;
+        }
+
+        else if(depth == 0){
+            return null;
+        }
+
+        else{
+            specialVisited.put(b.getBoard(), depth);
+
+            for (int[] direction : directions) {
+                if ((resultBoard = move(b, direction[0], direction[1])) != null) {
+                    nextStep = solveByIDDFS(resultBoard, depth-1);
+                }
+            }
+        }
+
+        return nextStep;
     }
 
     public int manhattanHeuristic(Board b) {
