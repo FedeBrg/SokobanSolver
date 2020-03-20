@@ -1,5 +1,3 @@
-import javafx.beans.binding.MapExpression;
-
 import java.awt.*;
 import java.util.*;
 import java.util.List;
@@ -10,7 +8,7 @@ public class Sokoban {
     static int cols;
 
     Sokoban(){
-        cols = 7;
+        cols = 15;
     }
 
     Board movePlayer(Board b, int dx, int dy) {
@@ -89,14 +87,14 @@ public class Sokoban {
 
         Board rtb = movePlayer(new Board(new String(boardArray),b.getSolution(), b.getBoardSizex(), b.getBoardSizey(),x,y),dx,dy);
 
-        if(checkDeadlock(b,x+(2*dx), (y+(2*dy))) && !isSolution(rtb)){
+        if(replacement != '%' && (checkEdgeDeadlock(b,x+(2*dx), (y+(2*dy))) || checkMapDeadlock(b)) && !isSolution(rtb)){
             return null;
         }
 
         return rtb;
     }
 
-    boolean checkDeadlock(Board b, int xBox, int yBox){
+    boolean checkEdgeDeadlock(Board b, int xBox, int yBox){
         int [][] positions = {{-1,-1},{1,-1},{1,1},{-1,1}};
 
 
@@ -106,7 +104,6 @@ public class Sokoban {
             if(p1 < b.getBoard().length() && p2<b.getBoard().length() && p1>0 && p2>0){
                 char c1 = b.getBoard().charAt(p1);
                 char c2 = b.getBoard().charAt(p2);
-//            System.out.printf("%c %c\n",c1,c2);
                 if(c1 == '#'  && c2 == '#'){
                     return true;
                 }
@@ -115,6 +112,52 @@ public class Sokoban {
         }
 
         return false;
+    }
+
+
+    boolean checkPossibleDeadlock(Board b, int xBox, int yBox){
+        int [][] positions = {{-1,-1},{1,-1},{1,1},{-1,1}};
+
+
+        for (int[] pos : positions) {
+            int p1 = xBox+pos[0] + yBox*b.getBoardSizex();
+            int p2 = xBox + (yBox+pos[1])*b.getBoardSizex();
+            if(p1 < b.getBoard().length() && p2<b.getBoard().length() && p1>0 && p2>0){
+                char c1 = b.getBoard().charAt(p1);
+                char c2 = b.getBoard().charAt(p2);
+                if((c1 == '#' || c1 == '$' || c1 == '%')  && (c2 == '#' || c2 == '$' || c2 == '%')){
+                    return true;
+                }
+            }
+
+        }
+
+        return false;
+    }
+    boolean checkMapDeadlock(Board b){
+        int boxes = 0;
+        int deadlocked = 0;
+
+        char[] board = b.getBoard().toCharArray();
+        int j = 0;
+        while(j<board.length){
+            if(board[j] == '$' || board[j] == '%'){
+                boxes++;
+                int x = j % b.getBoardSizex();
+                int y = j / b.getBoardSizex();
+
+                if(checkPossibleDeadlock(b,x,y)){
+                    deadlocked++;
+                }
+                else{
+                    return false;
+                }
+            }
+            j++;
+
+        }
+
+        return deadlocked == boxes;
     }
 
     Board move(Board b, int dx, int dy){
@@ -151,7 +194,7 @@ public class Sokoban {
         int j = 0;
         int t = 0;
         while(t < board.length) {
-            System.out.printf("\npaso N%d\n",(t/56));
+            System.out.printf("\npaso N%d\n",(t/(b.getBoardSizex()*b.getBoardSizey())));
 
             while (j < aux.length) {
                 for (int i = 0; i < cols; i++) {
@@ -200,8 +243,8 @@ public class Sokoban {
         String level1 = "#######" +
                         "#     #" +
                         "#     #" +
+                        "#$    #" +
                         "#     #" +
-                        "#  $  #" +
                         "#     #" +
                         "#.   @#" +
                         "#######";
@@ -223,7 +266,8 @@ public class Sokoban {
 
         Sokoban s = new Sokoban();
 
-        Board b = new Board(level1,level1,7,8,5,6);
+        Board b = new Board(level2,level2,15,10,7,7);
+        System.out.println(s.checkMapDeadlock(b));
 
         String dead =   "#######" +
                         "#     #" +
@@ -237,9 +281,8 @@ public class Sokoban {
 //        Board test = new Board(dead,dead,5,6);
 //        System.out.println(s.checkDeadlock(test,3,6));
 
-
-        s.solveByDFS(b);
-        //s.printSolution((s.solveByDFS(b)));
+       // s.solveByDFS(b);
+        s.printSolution(s.solveByBFS(b));
 //        s.solveByBFS(b);
 //        System.out.println(s.solveByBFS(b).getSolution());
     }
@@ -322,10 +365,11 @@ public class Sokoban {
 
             if (isSolution(currentBoard)) {
                 System.out.printf("SOLUCION en I = %d !!!!\n",i);
-                currentBoard.printBoard(cols);
+                //currentBoard.printBoard(cols);
                 boardQueue.clear();
                 return currentBoard;
             }
+
             i++;
             visited.put(currentBoard.getBoard(), currentBoard);
 //            currentBoard.printBoard(cols);
