@@ -9,6 +9,15 @@ public class Board implements Comparable<Board>{
     private int playery;
 
     private int heuristic;
+    private int cost;
+
+    public int getCost() {
+        return cost;
+    }
+
+    public void setCost(int cost) {
+        this.cost = cost;
+    }
 
     public Board(String board, String solution, int boardSizex, int boardSizey, int playerx, int playery) {
         this.board = board;
@@ -90,6 +99,11 @@ public class Board implements Comparable<Board>{
 
     @Override
     public int compareTo(Board o) {
-        return heuristic - o.getHeuristic();
+
+        int dif = heuristic+cost - o.getHeuristic()-o.getCost();
+        if(dif == 0){
+            return heuristic - o.getHeuristic();
+        }
+        return dif;
     }
 }

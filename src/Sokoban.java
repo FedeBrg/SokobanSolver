@@ -9,7 +9,7 @@ public class Sokoban {
     static int cols;
 
     Sokoban(){
-        cols = 13;
+        cols = 15;
     }
 
     Board movePlayer(Board b, int dx, int dy) {
@@ -274,6 +274,7 @@ public class Sokoban {
         Board b = new Board(level2,level2,15,10,7,7);
         Board b2 = new Board(level4, level4, 13, 13, 5,10);
 
+
         String dead =   "#######" +
                         "#     #" +
                         "#     #" +
@@ -284,7 +285,11 @@ public class Sokoban {
                         "#######";
 
         //s.printSolution(s.solveByBFS(b));
-        s.printSolution(s.solveByIDDFS(b2, 60));
+        b.setCost(1);
+        b.setHeuristic(s.manhattanHeuristic(b));
+//        s.printSolution(s.solveByAStar(b));
+        s.printSolution(s.solveByBFS(b));
+
     }
 
      Board solveByDFS(Board b){
@@ -426,7 +431,9 @@ public class Sokoban {
 
             for (int[] direction : directions) {
                 if ((resultBoard = move(currentBoard, direction[0], direction[1])) != null) {
-                    resultBoard.setHeuristic(manhattanHeuristic(resultBoard)+1);
+                    resultBoard.setHeuristic(manhattanHeuristic(resultBoard));
+                    resultBoard.setCost(currentBoard.getCost()+1);
+//                    System.out.println(currentBoard.getCost());
                     boardQueue.add(resultBoard);
                 }
             }
@@ -435,6 +442,10 @@ public class Sokoban {
 
         return null;
     }
+
+//    public Board solveByIDAStar(Board b, int limit){
+//
+//    }
 
 
     public Board solveByIDDFS(Board b, int depth){
