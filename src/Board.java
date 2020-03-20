@@ -1,4 +1,4 @@
-public class Board {
+public class Board implements Comparable<Board>{
     private String board;
     private String solution;
 
@@ -7,6 +7,8 @@ public class Board {
 
     private int playerx;
     private int playery;
+
+    private int heuristic;
 
     public Board(String board, String solution, int boardSizex, int boardSizey, int playerx, int playery) {
         this.board = board;
@@ -76,5 +78,18 @@ public class Board {
 
     public void setBoardSizey(int boardSizey) {
         this.boardSizey = boardSizey;
+    }
+
+    public int getHeuristic() {
+        return heuristic;
+    }
+
+    public void setHeuristic(int heuristic) {
+        this.heuristic = heuristic;
+    }
+
+    @Override
+    public int compareTo(Board o) {
+        return heuristic - o.getHeuristic();
     }
 }

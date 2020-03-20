@@ -8,7 +8,7 @@ public class Sokoban {
     static int cols;
 
     Sokoban(){
-        cols = 15;
+        cols = 17;
     }
 
     Board movePlayer(Board b, int dx, int dy) {
@@ -49,6 +49,7 @@ public class Sokoban {
         boardArray[newPos] = replacement;
 
         return new Board(new String(boardArray), b.getSolution().concat(new String((boardArray))), b.getBoardSizex(),b.getBoardSizey(), x + dx, y + dy);
+
     }
 
     Board pushBox(Board b, int dx, int dy){
@@ -230,11 +231,11 @@ public class Sokoban {
                         "##         ##    " +
                         "#  $     $  #    " +
                         "# $# #.# #$ #    " +
-                        "#    #*#    #####" +
+                        "#    # #    #####" +
                         "#  ###.###  #   #" +
-                        "#  .*.@.*.      #" +
+                        "#  . .@. .      #" +
                         "#  ###.###  #   #" +
-                        "#    #*#    #####" +
+                        "#    # #    #####" +
                         "# $# #.# #$ #    " +
                         "#  $     $  #    " +
                         "##         ##    " +
@@ -266,8 +267,8 @@ public class Sokoban {
 
         Sokoban s = new Sokoban();
 
-        Board b = new Board(level2,level2,15,10,7,7);
-        System.out.println(s.checkMapDeadlock(b));
+        Board b = new Board(level3,level3,17,13,6,6);
+//        System.out.println(s.checkMapDeadlock(b));
 
         String dead =   "#######" +
                         "#     #" +
@@ -282,7 +283,7 @@ public class Sokoban {
 //        System.out.println(s.checkDeadlock(test,3,6));
 
        // s.solveByDFS(b);
-        s.printSolution(s.solveByBFS(b));
+//        s.solveByBFS(b);
 //        s.solveByBFS(b);
 //        System.out.println(s.solveByBFS(b).getSolution());
     }
@@ -395,6 +396,87 @@ public class Sokoban {
 //            if((resultBoard = move(currentBoard,0,-1)) != null){
 //                boardQueue.add(resultBoard);
 //            }
+        }
+
+        return null;
+    }
+
+
+    Board solveByGlobalGreedy(Board b){
+        int i = 0;
+        Board resultBoard;
+        Board currentBoard;
+        int [][] directions = {{1,0},{0,1},{-1,0},{0,-1}};
+
+
+        Queue<Board> boardQueue = new PriorityQueue<>();
+        boardQueue.add(b);
+
+        while(!boardQueue.isEmpty()){
+            currentBoard = boardQueue.poll();
+
+            while(visited.containsKey(currentBoard.getBoard())){
+                currentBoard = boardQueue.poll();
+            }
+
+            if (isSolution(currentBoard)) {
+                System.out.printf("SOLUCION en I = %d !!!!\n",i);
+                //currentBoard.printBoard(cols);
+                boardQueue.clear();
+                return currentBoard;
+            }
+
+            i++;
+            visited.put(currentBoard.getBoard(), currentBoard);
+//            currentBoard.printBoard(cols);
+
+            for (int[] direction : directions) {
+                if ((resultBoard = move(currentBoard, direction[0], direction[1])) != null) {
+                    resultBoard.setHeuristic(manhattanHeuristic(resultBoard));
+                    boardQueue.add(resultBoard);
+                }
+            }
+
+        }
+
+        return null;
+    }
+
+    Board solveByAStar(Board b){
+        int i = 0;
+        Board resultBoard;
+        Board currentBoard;
+        int [][] directions = {{1,0},{0,1},{-1,0},{0,-1}};
+
+
+        Queue<Board> boardQueue = new PriorityQueue<>();
+        boardQueue.add(b);
+
+        while(!boardQueue.isEmpty()){
+            currentBoard = boardQueue.poll();
+
+            while(visited.containsKey(currentBoard.getBoard())){
+                currentBoard = boardQueue.poll();
+            }
+
+            if (isSolution(currentBoard)) {
+                System.out.printf("SOLUCION en I = %d !!!!\n",i);
+                //currentBoard.printBoard(cols);
+                boardQueue.clear();
+                return currentBoard;
+            }
+
+            i++;
+            visited.put(currentBoard.getBoard(), currentBoard);
+//            currentBoard.printBoard(cols);
+
+            for (int[] direction : directions) {
+                if ((resultBoard = move(currentBoard, direction[0], direction[1])) != null) {
+                    resultBoard.setHeuristic(manhattanHeuristic(resultBoard)+1);
+                    boardQueue.add(resultBoard);
+                }
+            }
+
         }
 
         return null;
