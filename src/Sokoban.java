@@ -3,6 +3,7 @@ import javafx.util.Pair;
 import java.awt.*;
 import java.util.*;
 import java.util.List;
+import java.util.stream.LongStream;
 
 public class Sokoban {
     static HashMap<String, Board> visited = new HashMap<>();
@@ -291,8 +292,9 @@ public class Sokoban {
 
         //s.printSolution(s.solveByBFS(b));
         b2.setCost(1);
-        b2.setHeuristic(s.manhattanHeuristic(b2));
-        s.printSolution(s.solveByIDAStar(b2));
+        b2.setHeuristic(s.easyHeuristic(b2));
+        s.printSolution(s.solveByAStar(b2));
+//        s.printSolution(s.solveByBFS(b2));
 
     }
 
@@ -435,7 +437,7 @@ public class Sokoban {
 
             for (int[] direction : directions) {
                 if ((resultBoard = move(currentBoard, direction[0], direction[1])) != null) {
-                    resultBoard.setHeuristic(easyHeuristic(resultBoard));
+                    resultBoard.setHeuristic(improvedManhattanHeuristic(resultBoard));
                     resultBoard.setCost(currentBoard.getCost()+1);
 //                    System.out.println(currentBoard.getCost());
                     boardQueue.add(resultBoard);
@@ -589,5 +591,94 @@ public class Sokoban {
         }
 
         return boxOutOfPlaceCount;
+    }
+
+    public int improvedManhattanHeuristic(Board b){
+        List<Point> boxes = new ArrayList<>();
+        List<Point> bins = new ArrayList<>();
+        Point p;
+
+        char[] boardArray = b.getBoard().toCharArray();
+        for(int i = 0; i < boardArray.length; i++){
+            if(boardArray[i] == '.' || boardArray[i] == 'O') {
+                p = new Point(i % b.getBoardSizex(), i / b.getBoardSizex());
+                bins.add(p);
+            } else if(boardArray[i] == '$'){
+                p = new Point(i % b.getBoardSizex(), i / b.getBoardSizex());
+                boxes.add(p);
+            }
+        }
+
+
+        HashMap<Pair<Integer,Integer>,Integer> map = new HashMap<>();
+
+        for(int i = 0;i<boxes.size();i++){
+            for(int j = 0;j<bins.size();j++){
+                Point box = boxes.get(i);
+                Point bin = bins.get(j);
+                map.put(new Pair<>(i,j),Math.abs(box.x-bin.x) + Math.abs(box.y-bin.y));
+            }
+        }
+
+        ArrayList<Integer> l = new ArrayList<>();
+        for (int i = 0;i<boxes.size();i++){
+            l.add(i);
+        }
+
+        ArrayList<ArrayList<Integer>> perm = permutations(l);
+
+        List<Integer> results = new ArrayList<>();
+        for (int i = 0;i<perm.size();i++){
+            results.add(0);
+        }
+
+        for (int i = 0;i<perm.size();i++){
+            for (int j = 0;j<boxes.size();j++){
+                int r = results.get(i);
+                r+= map.get(new Pair<>(i,j));
+                results.set(i,r);
+            }
+        }
+
+        if(results.isEmpty()){
+            return 0;
+        }
+
+        return Collections.min(results);
+    }
+
+
+    //SOURCE https://www.java-forums.org/new-java/67881-loops-recursion-get-every-permutation-arraylist-elements-order-matters.html
+
+    public  ArrayList<ArrayList<Integer>> permutations(ArrayList<Integer> list)
+    {
+        return permutations(null, list, null);
+    }
+
+    public ArrayList<ArrayList<Integer>> permutations(ArrayList<Integer> prefix, ArrayList<Integer> suffix, ArrayList<ArrayList<Integer>> output)
+    {
+        if(prefix == null)
+            prefix = new ArrayList<Integer>();
+        if(output == null)
+            output = new ArrayList<ArrayList<Integer>>();
+
+        if(suffix.size() == 1)
+        {
+            ArrayList<Integer> newElement = new ArrayList<Integer>(prefix);
+            newElement.addAll(suffix);
+            output.add(newElement);
+            return output;
+        }
+
+        for(int i = 0; i < suffix.size(); i++)
+        {
+            ArrayList<Integer> newPrefix = new ArrayList<Integer>(prefix);
+            newPrefix.add(suffix.get(i));
+            ArrayList<Integer> newSuffix = new ArrayList<Integer>(suffix);
+            newSuffix.remove(i);
+            permutations(newPrefix,newSuffix,output);
+        }
+
+        return output;
     }
 }
