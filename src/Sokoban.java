@@ -286,9 +286,9 @@ public class Sokoban {
 
         //s.printSolution(s.solveByBFS(b));
         b2.setCost(1);
-        b2.setHeuristic(s.manhattanHeuristic(b2));
-//        s.printSolution(s.solveByAStar(b));
+        b2.setHeuristic(s.easyHeuristic(b2));
         s.printSolution(s.solveByAStar(b2));
+//        s.printSolution(s.solveByBFS(b2));
 
     }
 
@@ -431,7 +431,7 @@ public class Sokoban {
 
             for (int[] direction : directions) {
                 if ((resultBoard = move(currentBoard, direction[0], direction[1])) != null) {
-                    resultBoard.setHeuristic(manhattanHeuristic(resultBoard));
+                    resultBoard.setHeuristic(easyHeuristic(resultBoard));
                     resultBoard.setCost(currentBoard.getCost()+1);
 //                    System.out.println(currentBoard.getCost());
                     boardQueue.add(resultBoard);
