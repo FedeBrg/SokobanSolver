@@ -1,3 +1,5 @@
+import javafx.util.Pair;
+
 import java.awt.*;
 import java.util.*;
 import java.util.List;
@@ -5,7 +7,7 @@ import java.util.List;
 public class Sokoban {
     static HashMap<String, Board> visited = new HashMap<>();
     private HashMap<String, Integer> specialVisited = new HashMap<>();
-
+    private Queue<Board> boardQueue = new PriorityQueue<>();
     static int cols;
 
     Sokoban(){
@@ -215,6 +217,9 @@ public class Sokoban {
     }
 
     static boolean isSolution(Board board){
+        if(board == null){
+            return false;
+        }
         return !board.getBoard().contains(".") && !board.getBoard().contains("O");
     }
 
@@ -286,9 +291,8 @@ public class Sokoban {
 
         //s.printSolution(s.solveByBFS(b));
         b2.setCost(1);
-        b2.setHeuristic(s.easyHeuristic(b2));
-        s.printSolution(s.solveByAStar(b2));
-//        s.printSolution(s.solveByBFS(b2));
+        b2.setHeuristic(s.manhattanHeuristic(b2));
+        s.printSolution(s.solveByIDAStar(b2));
 
     }
 
@@ -391,7 +395,7 @@ public class Sokoban {
 
             for (int[] direction : directions) {
                 if ((resultBoard = move(currentBoard, direction[0], direction[1])) != null) {
-                    resultBoard.setHeuristic(manhattanHeuristic(resultBoard));
+                    resultBoard.setHeuristic(easyHeuristic(resultBoard));
                     boardQueue.add(resultBoard);
                 }
             }
@@ -443,9 +447,27 @@ public class Sokoban {
         return null;
     }
 
-//    public Board solveByIDAStar(Board b, int limit){
-//
-//    }
+    public Board solveByIDAStar(Board b){
+        int limit;
+        Board currentBoard;
+        Board resultBoard;
+        boardQueue.add(b);
+
+        while(true){
+            currentBoard = boardQueue.poll();
+            if(currentBoard == null){
+                return null;
+            }
+
+            limit = currentBoard.getCost() + currentBoard.getHeuristic();
+            //System.out.printf("QUEUE = %d, COST = %d, HEURISTIC = %d\n", boardQueue.size(), currentBoard.getCost(), currentBoard.getHeuristic());
+            resultBoard = specialIDDFS(currentBoard, limit);
+
+            if(resultBoard != null){
+                return resultBoard;
+            }
+        }
+    }
 
 
     public Board solveByIDDFS(Board b, int depth){
@@ -479,6 +501,44 @@ public class Sokoban {
         return nextStep;
     }
 
+    private Board specialIDDFS(Board b, int depth){
+        Board resultBoard;
+        Board nextStep = null;
+        int [][] directions = {{1,0},{0,1},{-1,0},{0,-1}};
+
+        if(isSolution(b)){
+            return b;
+        }
+
+        else if(specialVisited.containsKey(b.getBoard()) && specialVisited.get(b.getBoard()) >= depth){
+            return null;
+        }
+
+        else if(depth == 0){
+            return null;
+        }
+
+        else{
+            specialVisited.put(b.getBoard(), depth);
+            if(!boardQueue.contains(b)){
+                boardQueue.add(b);
+            }
+
+            for (int[] direction : directions) {
+                if ((resultBoard = move(b, direction[0], direction[1])) != null) {
+                    resultBoard.setCost(b.getCost()+1);
+                    resultBoard.setHeuristic(manhattanHeuristic(resultBoard));
+                    nextStep = specialIDDFS(resultBoard, depth-1);
+                    if(isSolution(nextStep)){
+                        return nextStep;
+                    }
+                }
+            }
+        }
+
+        return nextStep;
+    }
+
     public int manhattanHeuristic(Board b) {
         List<Point> boxes = new ArrayList<>();
         List<Point> bins = new ArrayList<>();
@@ -495,14 +555,6 @@ public class Sokoban {
             }
         }
 
-        //for(Point point : boxes){
-        //    System.out.printf("BOX: X = %d, Y = %d\n", point.x, point.y);
-        //}
-
-        //for(Point point : bins){
-        //    System.out.printf("BIN: X = %d, Y = %d\n", point.x, point.y);
-        //}
-
         List<Integer> heuristicList = new ArrayList<>();
         int toReturn = 0;
 
@@ -511,7 +563,7 @@ public class Sokoban {
                 heuristicList.add(Math.abs(box.x-bin.x) + Math.abs(box.y-bin.y));
             }
 
-            toReturn += Collections.max(heuristicList);
+            toReturn += Collections.min(heuristicList);
             heuristicList.clear();
         }
 

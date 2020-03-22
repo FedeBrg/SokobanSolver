@@ -106,4 +106,14 @@ public class Board implements Comparable<Board>{
         }
         return dif;
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        if(!(obj instanceof Board)){
+            return false;
+        }
+
+        Board other = (Board) obj;
+        return board.equals(other.getBoard());
+    }
 }
