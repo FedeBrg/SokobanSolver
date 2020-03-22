@@ -9,7 +9,7 @@ public class Sokoban {
     static int cols;
 
     Sokoban(){
-        cols = 15;
+        cols = 13;
     }
 
     Board movePlayer(Board b, int dx, int dy) {
@@ -285,10 +285,10 @@ public class Sokoban {
                         "#######";
 
         //s.printSolution(s.solveByBFS(b));
-        b.setCost(1);
-        b.setHeuristic(s.manhattanHeuristic(b));
+        b2.setCost(1);
+        b2.setHeuristic(s.manhattanHeuristic(b2));
 //        s.printSolution(s.solveByAStar(b));
-        s.printSolution(s.solveByBFS(b));
+        s.printSolution(s.solveByAStar(b2));
 
     }
 
@@ -516,5 +516,26 @@ public class Sokoban {
         }
 
         return toReturn;
+    }
+
+    public int easyHeuristic(Board b){
+        if(isSolution(b)){
+            return 0;
+        }
+
+        return 1;
+    }
+
+    public int hammingHeuristic(Board b){
+        int boxOutOfPlaceCount = 0;
+        char[] boardArray = b.getBoard().toCharArray();
+
+        for(char c : boardArray){
+            if (c == '$') {
+                boxOutOfPlaceCount++;
+            }
+        }
+
+        return boxOutOfPlaceCount;
     }
 }
