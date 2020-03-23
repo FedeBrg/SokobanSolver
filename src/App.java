@@ -1,4 +1,4 @@
-import Interfaces.Board;
+import interfaces.Board;
 
 public class App {
 
@@ -26,7 +26,6 @@ public class App {
         }
 
     }
-
 
 
     public static void main(String[] arg){
@@ -83,11 +82,6 @@ public class App {
 
 
     }
-
-
-
-
-
 
 
 }

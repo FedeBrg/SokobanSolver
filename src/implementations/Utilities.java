@@ -1,6 +1,6 @@
-package Implementations;
+package implementations;
 
-import Interfaces.Board;
+import interfaces.Board;
 import javafx.util.Pair;
 
 import java.awt.*;

@@ -1,8 +1,8 @@
-package Implementations;
+package implementations;
 
-import Interfaces.Board;
-import Interfaces.SearchMethod;
-import Interfaces.Sokoban;
+import interfaces.Board;
+import interfaces.SearchMethod;
+import interfaces.Sokoban;
 
 import java.util.HashMap;
 

@@ -1,8 +1,8 @@
-package Implementations;
+package implementations;
 
-import Interfaces.Board;
-import Interfaces.Heuristic;
-import Interfaces.Sokoban;
+import interfaces.Board;
+import interfaces.Heuristic;
+import interfaces.Sokoban;
 
 public class SokobanImpl implements Sokoban {
 

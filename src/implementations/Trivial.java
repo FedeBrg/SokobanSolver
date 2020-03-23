@@ -1,7 +1,7 @@
-package Implementations;
+package implementations;
 
-import Interfaces.Board;
-import Interfaces.Heuristic;
+import interfaces.Board;
+import interfaces.Heuristic;
 
 public class Trivial implements Heuristic {
     @Override
