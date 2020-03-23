@@ -1,4 +1,9 @@
-public class Board implements Comparable<Board>{
+package Implementations;
+
+import Interfaces.Board;
+
+public class BoardImpl implements Board {
+
     private String board;
     private String solution;
 
@@ -11,15 +16,8 @@ public class Board implements Comparable<Board>{
     private int heuristic;
     private int cost;
 
-    public int getCost() {
-        return cost;
-    }
 
-    public void setCost(int cost) {
-        this.cost = cost;
-    }
-
-    public Board(String board, String solution, int boardSizex, int boardSizey, int playerx, int playery) {
+    public BoardImpl (String board, String solution, int boardSizex, int boardSizey, int playerx, int playery) {
         this.board = board;
         this.solution = solution;
         this.boardSizex = boardSizex;
@@ -62,8 +60,19 @@ public class Board implements Comparable<Board>{
         return heuristic;
     }
 
+
     public void setHeuristic(int heuristic) {
         this.heuristic = heuristic;
+    }
+
+
+    public int getCost() {
+        return cost;
+    }
+
+
+    public void setCost(int cost) {
+        this.cost = cost;
     }
 
     @Override
@@ -85,4 +94,5 @@ public class Board implements Comparable<Board>{
         Board other = (Board) obj;
         return board.equals(other.getBoard());
     }
+
 }
