@@ -12,7 +12,7 @@ import java.util.List;
 public class Manhattan implements Heuristic {
     @Override
     public int getHeuristic(Board board) {
-        Pair<List<Point>,List<Point>> p = HeuristicUtilities.getBoxesAndBins(board);
+        Pair<List<Point>,List<Point>> p = Utilities.getBoxesAndBins(board);
         List<Point> boxes = p.getKey();
         List<Point> bins = p.getValue();
 

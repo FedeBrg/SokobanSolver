@@ -7,7 +7,7 @@ import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class HeuristicUtilities {
+public class Utilities {
 
     public static Pair<List<Point>,List<Point>> getBoxesAndBins(Board board){
         List<Point> boxes = new ArrayList<>();
@@ -27,4 +27,13 @@ public class HeuristicUtilities {
 
         return new Pair<>(boxes,bins);
     }
+
+    static boolean isSolution(Board board){
+        if(board == null){
+            return false;
+        }
+        return !board.getBoard().contains(".") && !board.getBoard().contains("O");
+    }
+
+
 }

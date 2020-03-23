@@ -1,5 +1,5 @@
 package Interfaces;
 
 public interface SearchMethod {
-    Board findPath(Board b);
+    Board findPath(Board b, Sokoban s);
 }
