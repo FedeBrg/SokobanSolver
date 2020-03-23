@@ -6,4 +6,6 @@ public interface Sokoban {
     int getHeuristic(Board b);
     int getDepth();
     void setDepth(int depth);
+     boolean isDeadlockCheck();
+
 }

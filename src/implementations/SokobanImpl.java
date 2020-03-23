@@ -8,10 +8,16 @@ public class SokobanImpl implements Sokoban {
 
     private Heuristic heuristic;
     private int depth;
+    private boolean deadlockCheck;
 
-    public SokobanImpl(Heuristic heuristic, int depth) {
+    public SokobanImpl(Heuristic heuristic, int depth, boolean deadlockCheck) {
         this.heuristic = heuristic;
         this.depth = depth;
+        this.deadlockCheck = deadlockCheck;
+    }
+
+    public boolean isDeadlockCheck() {
+        return deadlockCheck;
     }
 
     public int getDepth(){
