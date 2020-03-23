@@ -9,6 +9,11 @@ public class SokobanImpl implements Sokoban {
     private Heuristic heuristic;
     private int depth;
 
+    public SokobanImpl(Heuristic heuristic, int depth) {
+        this.heuristic = heuristic;
+        this.depth = depth;
+    }
+
     public int getDepth(){
         return depth;
     }
