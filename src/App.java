@@ -1,14 +1,6 @@
-import javafx.util.Pair;
+import Interfaces.Board;
 
-import java.awt.*;
-import java.util.*;
-import java.util.List;
-import java.util.stream.LongStream;
-
-public class Sokoban {
-
-
-
+public class App {
 
     void printSolution(Board b){
         if(b == null){
@@ -88,20 +80,7 @@ public class Sokoban {
                         "   #####     ";
 
 
-        Sokoban s = new Sokoban();
 
-        Board b = new Board(level2,level2,15,10,7,7);
-        Board b2 = new Board(level4, level4, 13, 13, 5,10);
-
-
-        String dead =   "#######" +
-                        "#     #" +
-                        "#     #" +
-                        "#. #  #" +
-                        "#. $$ #" +
-                        "#.$   #" +
-                        "#.#$ @#" +
-                        "#######";
 
     }
 
