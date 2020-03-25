@@ -34,7 +34,7 @@ Works like Manhattan but two boxes can not use the same goal. It calculates ever
 ### boardx/boardy
 - Size of the map along the x and y axis respectively
 ### playerx/playery
-- Player position in the x/y axis respectively. Note that first row/column is 0
+- Player position in the x/y axis respectively. Note that first row/column is 0 and counting begins in the upper left corner.
 ### board
 - The level that will we solved, empty spaces outside the playing area need to be marked with 'x' and newLines preceded by a '\\', here's an example of a valid input:<br>
         
