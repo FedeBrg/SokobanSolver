@@ -77,20 +77,19 @@ public class App {
 
         Board b = new BoardImpl(level,level,boardx,boardy,playerx,playery);
 
-        if(sm != null && h!=null){
-            long t0 = System.currentTimeMillis();
-            Board sol = sm.findPath(b,s);
-            long tf = System.currentTimeMillis();
-            if(sol != null){
-                //printSolution(sol);
-            }
-            System.out.printf("Total runtime: %dms\n" ,tf-t0);
-            System.out.printf("Search method used: %s\n",sm);
-            System.out.printf("Heuristic used: %s\n",h);
+        b.setHeuristic(h.getHeuristic(b));
+        b.setCost(0);
+        long t0 = System.currentTimeMillis();
+        Board sol = sm.findPath(b,s);
+        long tf = System.currentTimeMillis();
+        if(sol != null){
+            printSolution(sol);
         }
-        else{
-            System.out.println("Error in configuration file");
-        }
+        System.out.printf("Total runtime: %dms\n" ,tf-t0);
+        System.out.printf("Search method used: %s\n",sm);
+        System.out.printf("Heuristic used: %s\n",h);
+
+
 
 
         String level2 = "      ###      " +
