@@ -84,7 +84,9 @@ public class App {
             if(sol != null){
                 printSolution(sol);
             }
-            System.out.printf("Total runtime: %dms" ,tf-t0);
+            System.out.printf("Total runtime: %dms\n" ,tf-t0);
+            System.out.printf("Search method used: %s\n",sm);
+            System.out.printf("Heuristic used: %s\n",h);
         }
         else{
             System.out.println("Error in configuration file");
