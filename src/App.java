@@ -118,15 +118,6 @@ public class App {
                         "##         ##    " +
                         " ###########     ";
 
-        String level1 = "#######" +
-                        "#     #" +
-                        "#     #" +
-                        "#$    #" +
-                        "#     #" +
-                        "#     #" +
-                        "#.   @#" +
-                        "#######";
-
         String level4 = "     #####   " +
                         "     #   #   " +
                         "     #   #   " +
@@ -140,12 +131,6 @@ public class App {
                         "   # @ #     " +
                         "   #   #     " +
                         "   #####     ";
-
-
-
-
-
-
     }
 
     private static Heuristic getHeuristic(int heuristic) {

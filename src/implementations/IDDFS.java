@@ -12,29 +12,44 @@ public class IDDFS implements SearchMethod {
 
     @Override
     public Board findPath(Board b, Sokoban s){
+        int [][] directions = {{1,0},{0,1},{-1,0},{0,-1}};
+        int i = 0;
+        Board toReturn = null;
+
+        while(toReturn == null){
+            specialVisited.clear();
+            toReturn = findPathWrapper(b, s, directions, s.getDepth()+i);
+            i++;
+        }
+
+        return toReturn;
+    }
+
+    private Board findPathWrapper(Board b, Sokoban s, int[][] directions, int depth){
         Board resultBoard = null;
         Board nextStep = null;
-        int [][] directions = {{1,0},{0,1},{-1,0},{0,-1}};
 
         if(Utilities.isSolution(b)){
             return b;
         }
 
-        else if(specialVisited.containsKey(b.getBoard()) && specialVisited.get(b.getBoard()) >= s.getDepth()){
+        else if(specialVisited.containsKey(b.getBoard()) && specialVisited.get(b.getBoard()) >= depth){
             return null;
         }
 
-        else if(s.getDepth() == 0){
+        else if(depth == 0){
             return null;
         }
 
         else{
-            specialVisited.put(b.getBoard(), s.getDepth());
+            specialVisited.put(b.getBoard(), depth);
 
             for (int[] direction : directions) {
                 if ((resultBoard = s.move(b, direction[0], direction[1])) != null) {
-                    s.setDepth(s.getDepth()-1);
-                    nextStep = findPath(resultBoard,s);
+                    nextStep = findPathWrapper(resultBoard, s, directions, depth - 1);
+                    if(nextStep != null){
+                        return nextStep;
+                    }
                 }
             }
         }
