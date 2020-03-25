@@ -1,5 +1,5 @@
-# SokobanSolver
-TP SIA 2020C1
+![Alt text](sulley.png?raw=true "Title")
+A rather smart Sokoban Solver
 ## Cost function
 Given the characteristics of the game, there is no cost difference for the possible player actions, so we decided to deal with the problem using a Uniform Cost function g, where g(n) = 1 for every n action.
 ## Heuristics
