@@ -82,7 +82,7 @@ public class App {
             Board sol = sm.findPath(b,s);
             long tf = System.currentTimeMillis();
             if(sol != null){
-                printSolution(sol);
+                //printSolution(sol);
             }
             System.out.printf("Total runtime: %dms\n" ,tf-t0);
             System.out.printf("Search method used: %s\n",sm);
@@ -135,16 +135,16 @@ public class App {
 
     private static Heuristic getHeuristic(int heuristic) {
         switch (heuristic){
-            case 0:
-                return new Trivial();
             case 1:
-                return new Hamming();
+                return new Trivial();
             case 2:
-                return new Manhattan();
+                return new Hamming();
             case 3:
+                return new Manhattan();
+            case 4:
                 return new ImprovedManhattan();
             default:
-                return null;
+                return new Trivial();
         }
     }
 
@@ -163,7 +163,7 @@ public class App {
             case 6:
                 return new IDAStar();
             default:
-                return null;
+                return new BFS();
         }
 
     }
