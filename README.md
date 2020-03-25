@@ -40,3 +40,8 @@ TP SIA 2020C1
         #     $@$     #\
         ####  ###  ####\
         xxx#### ####xxx 
+For this example:<br>
+- boardx = 15
+- boardy = 10
+- playerx = 7
+- playery = 7
