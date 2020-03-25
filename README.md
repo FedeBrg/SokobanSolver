@@ -1,5 +1,7 @@
 # SokobanSolver
 TP SIA 2020C1
+## Cost function
+Given the characteristics of the game, there is no cost difference for the possible player actions, so we decided to deal with the problem using a Uniform Cost function g, where g(n) = 1 for every n action.
 ## Heuristics
 ### Trivial
 Implementation of the trivial heuristic, mainly for testing purposes. Assigns boards a value of 1 unless they are a solution, in which case it returns 0.
@@ -9,7 +11,7 @@ Simple heuristic that counts how many boxes are placed in a goal.
 Measures the Manhattan distance from every box to the closest goal and adds them all up, no matter if two or more boxes are using the same goal.
 ### Improved Manhattan
 Works like Manhattan but two boxes can not use the same goal. It calculates every possibility and returns the minimum possible combination.
-## Config file options:
+## Config file options
 ### searchMethod
 - 1 - DFS
 - 2 - BFS (Default)
