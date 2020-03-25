@@ -52,4 +52,9 @@ public class GlobalGreedy implements SearchMethod {
 
         return null;
     }
+
+    @Override
+    public String toString() {
+        return "Global Greedy";
+    }
 }

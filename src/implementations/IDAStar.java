@@ -74,4 +74,8 @@ public class IDAStar implements SearchMethod {
 
         return nextStep;
     }
+    @Override
+    public String toString() {
+        return "IDA*";
+    }
 }

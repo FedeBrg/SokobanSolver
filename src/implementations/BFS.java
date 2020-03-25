@@ -51,4 +51,9 @@ public class BFS implements SearchMethod {
 
         return null;
     }
+
+    @Override
+    public String toString() {
+        return "BFS";
+    }
 }

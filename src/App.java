@@ -78,7 +78,13 @@ public class App {
         Board b = new BoardImpl(level,level,boardx,boardy,playerx,playery);
 
         if(sm != null && h!=null){
-            printSolution(sm.findPath(b,s));
+            long t0 = System.currentTimeMillis();
+            Board sol = sm.findPath(b,s);
+            long tf = System.currentTimeMillis();
+            if(sol != null){
+                printSolution(sol);
+            }
+            System.out.printf("Total runtime: %dms" ,tf-t0);
         }
         else{
             System.out.println("Error in configuration file");

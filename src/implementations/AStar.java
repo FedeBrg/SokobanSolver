@@ -53,4 +53,9 @@ public class AStar implements SearchMethod {
 
         return null;
     }
+
+    @Override
+    public String toString() {
+        return "A*";
+    }
 }

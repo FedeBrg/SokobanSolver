@@ -41,5 +41,8 @@ public class IDDFS implements SearchMethod {
 
         return nextStep;
     }
-
+    @Override
+    public String toString() {
+        return "IDDFS";
+    }
 }

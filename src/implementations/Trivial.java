@@ -13,6 +13,10 @@ public class Trivial implements Heuristic {
         return 1;
     }
 
+    @Override
+    public String toString() {
+        return "Trivial";
+    }
 
 
 }

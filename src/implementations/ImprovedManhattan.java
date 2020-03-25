@@ -87,4 +87,9 @@ public class ImprovedManhattan implements Heuristic {
 
         return output;
     }
+
+    @Override
+    public String toString() {
+        return "Improved Manhattan";
+    }
 }

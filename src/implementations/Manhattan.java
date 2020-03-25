@@ -30,4 +30,9 @@ public class Manhattan implements Heuristic {
 
         return toReturn;
     }
+
+    @Override
+    public String toString() {
+        return "Manhattan";
+    }
 }

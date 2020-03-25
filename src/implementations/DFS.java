@@ -36,4 +36,9 @@ public class DFS implements SearchMethod {
             return nextStep;
         }
     }
+
+    @Override
+    public String toString() {
+        return "DFS";
+    }
 }

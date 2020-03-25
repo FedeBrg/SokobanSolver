@@ -19,4 +19,8 @@ public class Hamming implements Heuristic {
         return boxOutOfPlaceCount;
     }
 
+    @Override
+    public String toString() {
+        return "Hamming";
+    }
 }
