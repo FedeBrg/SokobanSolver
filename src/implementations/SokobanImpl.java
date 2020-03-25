@@ -122,7 +122,7 @@ public class SokobanImpl implements Sokoban {
 
         Board rtb = movePlayer(new BoardImpl(new String(boardArray),b.getSolution(), b.getBoardSizex(), b.getBoardSizey(),x,y),dx,dy);
 
-        if(replacement != '%' && (checkEdgeDeadlock(b,x+(2*dx), (y+(2*dy))) || checkMapDeadlock(b)) && !Utilities.isSolution(rtb)){
+        if(replacement != '%' && deadlockCheck && (checkEdgeDeadlock(b,x+(2*dx), (y+(2*dy))) || checkMapDeadlock(b)) && !Utilities.isSolution(rtb)){
             return null;
         }
 
