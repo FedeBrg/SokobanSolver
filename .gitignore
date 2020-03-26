@@ -76,6 +76,7 @@ fabric.properties
 
  modules.xml
  .idea/misc.xml
+ 
 
 # Sonarlint plugin
 .idea/**/sonarlint/
@@ -128,3 +129,4 @@ buildNumber.properties
 # End of https://www.gitignore.io/api/java,maven,intellij
 /SokobanSolver.iml
 /.idea/
+/src/META-INF/
