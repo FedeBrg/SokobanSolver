@@ -12,5 +12,7 @@ public interface Board extends Comparable<Board> {
     void setHeuristic(int heuristic);
     int getCost();
     void setCost(int cost);
-
+    boolean equals(Object obj);
+    int compareTo(Board o);
+    void printBoard();
 }

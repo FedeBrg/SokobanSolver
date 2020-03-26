@@ -20,7 +20,7 @@ public class App {
         int j = 0;
         int t = 0;
         while(t < board.length) {
-            System.out.printf("\npaso N%d\n",(t/(b.getBoardSizex()*b.getBoardSizey())));
+            System.out.printf("\n------- PASO N° %d -------\n",(t/(b.getBoardSizex()*b.getBoardSizey())));
 
             while (j < aux.length) {
                 for (int i = 0; i < b.getBoardSizex(); i++) {
@@ -80,7 +80,15 @@ public class App {
         b.setHeuristic(h.getHeuristic(b));
         b.setCost(0);
         long t0 = System.currentTimeMillis();
-        Board sol = sm.findPath(b,s);
+        Board sol = null;
+
+        try{
+            sol = sm.findPath(b,s);
+        } catch(OutOfMemoryError e){
+            System.out.println("System run out of memory.");
+            e.printStackTrace();
+        }
+
         long tf = System.currentTimeMillis();
         if(sol != null){
             printSolution(sol);

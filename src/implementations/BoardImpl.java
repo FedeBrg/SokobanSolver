@@ -95,4 +95,16 @@ public class BoardImpl implements Board {
         return board.equals(other.getBoard());
     }
 
+    public void printBoard(){
+        System.out.print(board.charAt(0));
+        for(int i = 1; i < board.length(); i++){
+            if(i%boardSizex == 0){
+                System.out.print("\n");
+            }
+
+            System.out.print(board.charAt(i));
+        }
+
+        System.out.print("\n");
+    }
 }
