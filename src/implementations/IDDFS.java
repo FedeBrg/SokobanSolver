@@ -18,18 +18,22 @@ public class IDDFS implements SearchMethod {
 
         while(toReturn == null){
             specialVisited.clear();
-            toReturn = findPathWrapper(b, s, directions, s.getDepth()+(i*s.getIncrement()));
+            toReturn = findPathWrapper(b, s, directions, s.getDepth()+(i*s.getIncrement()),0);
             i++;
         }
 
         return toReturn;
     }
 
-    private Board findPathWrapper(Board b, Sokoban s, int[][] directions, int depth){
+    private Board findPathWrapper(Board b, Sokoban s, int[][] directions, int depth, int frontier){
         Board resultBoard = null;
         Board nextStep = null;
 
         if(Utilities.isSolution(b)){
+            System.out.print("Solution found!\n");
+            System.out.printf("Solution cost: %d\n",(b.getSolution().length()/b.getBoardSizex()/b.getBoardSizey())-1);
+            System.out.printf("Expanded nodes: %d\n",specialVisited.size()+1);
+            System.out.printf("Nodes in frontier: %d\n",frontier);
             return b;
         }
 
@@ -46,7 +50,8 @@ public class IDDFS implements SearchMethod {
 
             for (int[] direction : directions) {
                 if ((resultBoard = s.move(b, direction[0], direction[1])) != null) {
-                    nextStep = findPathWrapper(resultBoard, s, directions, depth - 1);
+                    frontier++;
+                    nextStep = findPathWrapper(resultBoard, s, directions, depth - 1,frontier);
                     if(nextStep != null){
                         return nextStep;
                     }
