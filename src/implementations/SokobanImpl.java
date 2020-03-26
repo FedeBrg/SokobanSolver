@@ -9,11 +9,13 @@ public class SokobanImpl implements Sokoban {
     private Heuristic heuristic;
     private int depth;
     private boolean deadlockCheck;
+    private int increment;
 
-    public SokobanImpl(Heuristic heuristic, int depth, boolean deadlockCheck) {
+    public SokobanImpl(Heuristic heuristic, int depth, boolean deadlockCheck, int increment) {
         this.heuristic = heuristic;
         this.depth = depth;
         this.deadlockCheck = deadlockCheck;
+        this.increment = increment;
     }
 
     public boolean isDeadlockCheck() {
@@ -26,6 +28,11 @@ public class SokobanImpl implements Sokoban {
 
     public void setDepth(int depth){
         this.depth = depth;
+    }
+
+    @Override
+    public int getIncrement() {
+        return increment;
     }
 
     public int getHeuristic(Board b){

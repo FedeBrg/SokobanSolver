@@ -30,10 +30,13 @@ public class DFS implements SearchMethod {
             for (int[] direction : directions) {
                 if ((resultBoard = s.move(b, direction[0], direction[1])) != null) {
                     nextStep = findPath(resultBoard,s);
+                    if (nextStep != null){
+                        return nextStep;
+                    }
                 }
             }
 
-            return nextStep;
+            return null;
         }
     }
 

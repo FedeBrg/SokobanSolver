@@ -47,6 +47,7 @@ public class App {
         int searchMethod;
         int heuristic;
         int depth;
+        int increment;
         boolean deadlockCheck;
 
         Properties prop = new Properties();
@@ -62,11 +63,12 @@ public class App {
         heuristic = Integer.parseInt(prop.getProperty("heuristic"));
         depth = Integer.parseInt(prop.getProperty("depth"));
         deadlockCheck = Integer.parseInt(prop.getProperty("deadlockCheck")) == 1;
+        increment = Integer.parseInt(prop.getProperty("iddfsInc"));
 
         SearchMethod sm = getSearchMethod(searchMethod);
         Heuristic h = getHeuristic(heuristic);
 
-        Sokoban s = new SokobanImpl(h,depth,deadlockCheck);
+        Sokoban s = new SokobanImpl(h,depth,deadlockCheck, increment);
 
 
         String level = prop.getProperty("board");
@@ -85,8 +87,7 @@ public class App {
         try{
             sol = sm.findPath(b,s);
         } catch(OutOfMemoryError e){
-            System.out.println("System run out of memory.");
-            e.printStackTrace();
+            System.out.println("System ran out of memory.");
         }
 
         long tf = System.currentTimeMillis();
