@@ -11,13 +11,20 @@ public class DFS implements SearchMethod {
 
     @Override
     public Board findPath(Board b, Sokoban s) {
+        return findPathDFS(b,s,0);
+    }
+
+    public Board findPathDFS(Board b, Sokoban s,int frontier) {
         Board resultBoard = null;
         Board nextStep = null;
 
         int [][] directions = {{1,0},{0,1},{-1,0},{0,-1}};
 
         if(Utilities.isSolution(b)){
-            System.out.println("SOLUCION!!!!\n");
+            System.out.printf("Solution found!\n");
+            System.out.printf("Solution cost: %d\n",(b.getSolution().length()/b.getBoardSizex()/b.getBoardSizey())-1);
+            System.out.printf("Expanded nodes: %d\n",visited.size()+1);
+            System.out.printf("Nodes in frontier: %d\n",frontier);
             return b;
         }
         else if(visited.containsKey(b.getBoard())){
@@ -26,10 +33,10 @@ public class DFS implements SearchMethod {
 
         else{
             visited.put(b.getBoard(), b);
-
             for (int[] direction : directions) {
                 if ((resultBoard = s.move(b, direction[0], direction[1])) != null) {
-                    nextStep = findPath(resultBoard,s);
+                    frontier++;
+                    nextStep = findPathDFS(resultBoard,s,frontier);
                     if (nextStep != null){
                         return nextStep;
                     }
@@ -44,4 +51,6 @@ public class DFS implements SearchMethod {
     public String toString() {
         return "DFS";
     }
+
+
 }
