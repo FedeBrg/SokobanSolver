@@ -18,7 +18,7 @@ public class IDDFS implements SearchMethod {
 
         while(toReturn == null){
             specialVisited.clear();
-            toReturn = findPathWrapper(b, s, directions, s.getDepth()+i);
+            toReturn = findPathWrapper(b, s, directions, s.getDepth()+(i*s.getIncrement()));
             i++;
         }
 
