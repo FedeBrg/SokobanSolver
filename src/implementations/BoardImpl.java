@@ -87,11 +87,11 @@ public class BoardImpl implements Board {
 
     @Override
     public boolean equals(Object obj) {
-        if(!(obj instanceof Board)){
+        if(!(obj instanceof BoardImpl)){
             return false;
         }
 
-        Board other = (Board) obj;
+        BoardImpl other = (BoardImpl) obj;
         return board.equals(other.getBoard());
     }
 

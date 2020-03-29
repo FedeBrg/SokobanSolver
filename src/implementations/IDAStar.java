@@ -7,6 +7,7 @@ import interfaces.Sokoban;
 import java.util.HashMap;
 import java.util.PriorityQueue;
 import java.util.Queue;
+import java.util.Stack;
 
 public class IDAStar implements SearchMethod {
 
@@ -18,22 +19,17 @@ public class IDAStar implements SearchMethod {
     public Board findPath(Board b, Sokoban s) {
         int [][] directions = {{1,0},{0,1},{-1,0},{0,-1}};
         int limit = 0;
-        int prevLimit = 0;
         Board currentBoard;
         Board resultBoard;
         boardQueue.add(b);
 
         while(true){
-            prevLimit = limit;
-            do {
-                currentBoard = boardQueue.poll();
-                if (currentBoard == null) {
-                    return null;
-                }
+            currentBoard = boardQueue.poll();
+            if (currentBoard == null) {
+                return null;
+            }
 
-                limit = currentBoard.getCost() + currentBoard.getHeuristic();
-            } while (limit <= prevLimit && !specialVisited.containsKey(currentBoard.getBoard()));
-
+            limit = currentBoard.getCost() + currentBoard.getHeuristic();
             resultBoard = specialIDDFS(currentBoard, limit, directions, s);
 
             if(resultBoard != null){
@@ -42,24 +38,21 @@ public class IDAStar implements SearchMethod {
         }
     }
 
-    private Board specialIDDFS(Board b, int depth, int[][] directions, Sokoban s){
+    private Board specialIDDFS(Board b, int limit, int[][] directions, Sokoban s){
         Board resultBoard;
         Board nextStep = null;
+        int totalCost = b.getCost() + b.getHeuristic();
 
         if(Utilities.isSolution(b)){
             return b;
         }
 
-        else if(specialVisited.containsKey(b.getBoard()) && specialVisited.get(b.getBoard()) >= depth){
-            return null;
-        }
-
-        else if(depth == 0){
+        else if(totalCost > limit){
             return null;
         }
 
         else{
-            specialVisited.put(b.getBoard(), depth);
+            specialVisited.put(b.getBoard(), limit);
 
             for (int[] direction : directions) {
                 if ((resultBoard = s.move(b, direction[0], direction[1])) != null) {
@@ -70,7 +63,7 @@ public class IDAStar implements SearchMethod {
                         boardQueue.add(resultBoard);
                     }
 
-                    nextStep = specialIDDFS(resultBoard, depth-1,directions, s);
+                    nextStep = specialIDDFS(resultBoard, limit,directions, s);
                     if(nextStep != null){
                         return nextStep;
                     }
