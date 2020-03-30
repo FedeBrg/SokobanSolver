@@ -5,6 +5,7 @@ import interfaces.SearchMethod;
 import interfaces.Sokoban;
 
 import java.io.FileInputStream;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Properties;
 
@@ -15,31 +16,47 @@ public class App {
             return;
         }
 
+        StringBuilder sb = new StringBuilder();
+
         char[] board = b.getSolution().toCharArray();
         char[] aux = b.getBoard().toCharArray();
         int j = 0;
         int t = 0;
         while(t < board.length) {
-            System.out.printf("\n------- PASO N° %d -------\n",(t/(b.getBoardSizex()*b.getBoardSizey())));
+            sb.append(String.format("\n------- PASO N° %d -------\n",(t/(b.getBoardSizex()*b.getBoardSizey()))));
+            //System.out.printf("\n------- PASO N° %d -------\n",(t/(b.getBoardSizex()*b.getBoardSizey())));
 
             while (j < aux.length) {
                 for (int i = 0; i < b.getBoardSizex(); i++) {
                     if(board[t] == 'x'){
-                        System.out.print(' ');
+                        sb.append(' ');
+                        //System.out.print(' ');
                     }
                     else{
-                        System.out.print(board[t]);
+                        sb.append(board[t]);
+                        //System.out.print(board[t]);
 
                     }
                     j++;
                     t++;
                 }
-                System.out.println();
+                sb.append('\n');
+                //System.out.println();
             }
             j=0;
         }
 
+        try {
+            FileWriter myWriter = new FileWriter("solution.txt");
+            myWriter.write(sb.toString());
+            myWriter.close();
+        } catch (IOException e) {
+            System.out.println("An error occurred.");
+            e.printStackTrace();
+        }
     }
+
+
 
 
     public static void main(String[] arg){
