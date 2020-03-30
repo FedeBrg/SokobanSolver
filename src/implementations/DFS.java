@@ -51,6 +51,4 @@ public class DFS implements SearchMethod {
     public String toString() {
         return "DFS";
     }
-
-
 }
