@@ -61,11 +61,11 @@ public class App {
 
     public static void main(String[] arg){
 
-        int searchMethod;
-        int heuristic;
-        int depth;
-        int increment;
-        boolean deadlockCheck;
+        int searchMethod = 0;
+        int heuristic = 0;
+        int depth = 0;
+        int increment = 0;
+        boolean deadlockCheck = false;
 
         Properties prop = new Properties();
         try {
@@ -76,25 +76,39 @@ public class App {
             e.printStackTrace();
         }
 
-        searchMethod = Integer.parseInt(prop.getProperty("searchMethod"));
-        heuristic = Integer.parseInt(prop.getProperty("heuristic"));
-        depth = Integer.parseInt(prop.getProperty("depth"));
-        deadlockCheck = Integer.parseInt(prop.getProperty("deadlockCheck")) == 1;
-        increment = Integer.parseInt(prop.getProperty("iddfsInc"));
+        try{
+            searchMethod = Integer.parseInt(prop.getProperty("searchMethod"));
+            heuristic = Integer.parseInt(prop.getProperty("heuristic"));
+            depth = Integer.parseInt(prop.getProperty("depth"));
+            deadlockCheck = Integer.parseInt(prop.getProperty("deadlockCheck")) == 1;
+            increment = Integer.parseInt(prop.getProperty("iddfsInc"));
+
+        } catch (NumberFormatException e){
+            System.out.println("Missing parameters in config file!");
+            System.exit(-1);
+        }
+
 
         SearchMethod sm = getSearchMethod(searchMethod);
         Heuristic h = getHeuristic(heuristic);
 
         Sokoban s = new SokobanImpl(h,depth,deadlockCheck, increment);
+        Board b = new BoardImpl("","",0,0,0,0);
 
+        try{
+            String level = prop.getProperty("board");
+            int playerx = Integer.parseInt(prop.getProperty("playerx"));
+            int playery = Integer.parseInt(prop.getProperty("playery"));
+            int boardx = Integer.parseInt(prop.getProperty("boardx"));
+            int boardy = Integer.parseInt(prop.getProperty("boardy"));
 
-        String level = prop.getProperty("board");
-        int playerx = Integer.parseInt(prop.getProperty("playerx"));
-        int playery = Integer.parseInt(prop.getProperty("playery"));
-        int boardx = Integer.parseInt(prop.getProperty("boardx"));
-        int boardy = Integer.parseInt(prop.getProperty("boardy"));
+            b = new BoardImpl(level,level,boardx,boardy,playerx,playery);
 
-        Board b = new BoardImpl(level,level,boardx,boardy,playerx,playery);
+        }catch (NumberFormatException e){
+            System.out.println("Missing parameters in config file!");
+            System.exit(-1);
+        }
+
 
         b.setHeuristic(h.getHeuristic(b));
         b.setCost(0);
