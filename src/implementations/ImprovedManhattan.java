@@ -2,28 +2,26 @@ package implementations;
 
 import interfaces.Board;
 import interfaces.Heuristic;
-import javafx.util.Pair;
+//import javafx.util.Pair;
 
 import java.awt.*;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
+import java.util.*;
 import java.util.List;
 
 public class ImprovedManhattan implements Heuristic {
     @Override
     public int getHeuristic(Board board) {
-        Pair<List<Point>,List<Point>> p = Utilities.getBoxesAndBins(board);
+        Map.Entry<List<Point>,List<Point>> p = Utilities.getBoxesAndBins(board);
         List<Point> boxes = p.getKey();
         List<Point> bins = p.getValue();
 
-        HashMap<Pair<Integer,Integer>,Integer> map = new HashMap<>();
+        HashMap<Map.Entry<Integer,Integer>,Integer> map = new HashMap<>();
 
         for(int i = 0;i<boxes.size();i++){
             for(int j = 0;j<bins.size();j++){
                 Point box = boxes.get(i);
                 Point bin = bins.get(j);
-                map.put(new Pair<>(i,j),Math.abs(box.x-bin.x) + Math.abs(box.y-bin.y));
+                map.put(new AbstractMap.SimpleEntry<>(i,j),Math.abs(box.x-bin.x) + Math.abs(box.y-bin.y));
             }
         }
 
@@ -52,7 +50,7 @@ public class ImprovedManhattan implements Heuristic {
         for (int i = 0;i<perm.size();i++){
             for (int j = 0;j<boxes.size();j++){
                 int r = results.get(i);
-                r+= map.get(new Pair<>(j,perm.get(i).get(j)));
+                r+= map.get(new AbstractMap.SimpleEntry<>(j,perm.get(i).get(j)));
                 results.set(i,r);
             }
         }

@@ -4,12 +4,14 @@ import interfaces.Board;
 import javafx.util.Pair;
 
 import java.awt.*;
+import java.util.AbstractMap;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public class Utilities {
 
-    public static Pair<List<Point>,List<Point>> getBoxesAndBins(Board board){
+    public static Map.Entry<List<Point>,List<Point>> getBoxesAndBins(Board board){
         List<Point> boxes = new ArrayList<>();
         List<Point> bins = new ArrayList<>();
         Point p;
@@ -25,7 +27,7 @@ public class Utilities {
             }
         }
 
-        return new Pair<>(boxes,bins);
+        return new AbstractMap.SimpleEntry<>(boxes,bins);
     }
 
     static boolean isSolution(Board board){

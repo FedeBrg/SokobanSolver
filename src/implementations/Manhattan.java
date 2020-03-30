@@ -2,17 +2,19 @@ package implementations;
 
 import interfaces.Board;
 import interfaces.Heuristic;
-import javafx.util.Pair;
+//import javafx.util.Pair;
 
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 
 public class Manhattan implements Heuristic {
     @Override
     public int getHeuristic(Board board) {
-        Pair<List<Point>,List<Point>> p = Utilities.getBoxesAndBins(board);
+        Map.Entry<List<Point>,List<Point>> p = Utilities.getBoxesAndBins(board);
+//        Pair<List<Point>,List<Point>> p = Utilities.getBoxesAndBins(board);
         List<Point> boxes = p.getKey();
         List<Point> bins = p.getValue();
 
