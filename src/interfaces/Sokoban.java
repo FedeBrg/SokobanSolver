@@ -8,5 +8,7 @@ public interface Sokoban {
     int getIncrement();
     void setDepth(int depth);
     boolean isDeadlockCheck();
+    int getInitialDepth();
+    Heuristic getHeuristic();
 
 }

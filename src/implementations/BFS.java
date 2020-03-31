@@ -3,6 +3,7 @@ package implementations;
 import interfaces.Board;
 import interfaces.SearchMethod;
 import interfaces.Sokoban;
+import sun.java2d.pipe.SolidTextRenderer;
 
 import java.util.ArrayDeque;
 import java.util.Deque;
@@ -10,6 +11,11 @@ import java.util.HashMap;
 
 public class BFS implements SearchMethod {
     static HashMap<String, Board> visited = new HashMap<>();
+    private Sokoban sokoban;
+
+    public BFS(Sokoban sokoban) {
+        this.sokoban = sokoban;
+    }
 
     @Override
     public Board findPath(Board b, Sokoban s) {
@@ -61,6 +67,6 @@ public class BFS implements SearchMethod {
 
     @Override
     public String toString() {
-        return "BFS";
+        return "Search method used: BFS";
     }
 }

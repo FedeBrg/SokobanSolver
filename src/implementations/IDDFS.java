@@ -9,6 +9,11 @@ import java.util.HashMap;
 public class IDDFS implements SearchMethod {
 
     private HashMap<String, Integer> specialVisited = new HashMap<>();
+    private Sokoban sokoban;
+
+    public IDDFS(Sokoban sokoban) {
+        this.sokoban = sokoban;
+    }
 
     @Override
     public Board findPath(Board b, Sokoban s){
@@ -63,6 +68,6 @@ public class IDDFS implements SearchMethod {
     }
     @Override
     public String toString() {
-        return "IDDFS";
+        return String.format("Search method used: IDDFS\nInitial depth:%d\nIncrement: %d",sokoban.getInitialDepth(),sokoban.getIncrement());
     }
 }

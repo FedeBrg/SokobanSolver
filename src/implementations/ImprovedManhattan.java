@@ -31,15 +31,6 @@ public class ImprovedManhattan implements Heuristic {
         }
 
         ArrayList<ArrayList<Integer>> perm = permutations(l);
-//        System.out.println("ARRANCA");
-//        for(ArrayList<Integer> a: perm){
-//            for (Integer i : a){
-//                System.out.print(i);
-//            }
-//            System.out.println();
-//        }
-//        System.out.println("FIN");
-
 
         List<Integer> results = new ArrayList<>();
         for (int i = 0;i<perm.size();i++){
@@ -50,7 +41,14 @@ public class ImprovedManhattan implements Heuristic {
         for (int i = 0;i<perm.size();i++){
             for (int j = 0;j<boxes.size();j++){
                 int r = results.get(i);
-                r+= map.get(new AbstractMap.SimpleEntry<>(j,perm.get(i).get(j)));
+                ArrayList<Integer> arr = perm.get(i);
+                int t = arr.get(j);
+
+                AbstractMap.SimpleEntry<Integer,Integer> entry = new AbstractMap.SimpleEntry<>(j,t);
+
+                if(map.get(entry) != null){
+                    r+= map.get(entry);
+                }
                 results.set(i,r);
             }
         }
@@ -58,7 +56,6 @@ public class ImprovedManhattan implements Heuristic {
         if(results.isEmpty()){
             return 0;
         }
-
         return Collections.min(results);
     }
 

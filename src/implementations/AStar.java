@@ -10,6 +10,11 @@ import java.util.Queue;
 
 public class AStar implements SearchMethod {
     static HashMap<String, Board> visited = new HashMap<>();
+    private Sokoban sokoban;
+
+    public AStar(Sokoban sokoban) {
+        this.sokoban = sokoban;
+    }
 
     @Override
     public Board findPath(Board b, Sokoban s) {
@@ -62,6 +67,6 @@ public class AStar implements SearchMethod {
 
     @Override
     public String toString() {
-        return "A*";
+        return String.format("Search method used: A*\nHeuristic used: %s",sokoban.getHeuristic());
     }
 }

@@ -88,11 +88,11 @@ public class App {
             System.exit(-1);
         }
 
-
-        SearchMethod sm = getSearchMethod(searchMethod);
         Heuristic h = getHeuristic(heuristic);
-
         Sokoban s = new SokobanImpl(h,depth,deadlockCheck, increment);
+        SearchMethod sm = getSearchMethod(searchMethod,s);
+
+
         Board b = new BoardImpl("","",0,0,0,0);
 
         try{
@@ -126,9 +126,7 @@ public class App {
             printSolution(sol);
         }
         System.out.printf("Total runtime: %dms\n" ,tf-t0);
-        System.out.printf("Search method used: %s\n",sm);
-        System.out.printf("Heuristic used: %s\n",h);
-
+        System.out.printf("%s\n",sm);
 
 
 
@@ -187,22 +185,22 @@ public class App {
         }
     }
 
-    private static SearchMethod getSearchMethod(int searchMethod) {
+    private static SearchMethod getSearchMethod(int searchMethod, Sokoban s) {
         switch (searchMethod){
             case 1:
-                return new DFS();
+                return new DFS(s);
             case 2:
-                return new BFS();
+                return new BFS(s);
             case 3:
-                return new IDDFS();
+                return new IDDFS(s);
             case 4:
-                return new GlobalGreedy();
+                return new GlobalGreedy(s);
             case 5:
-                return new AStar();
+                return new AStar(s);
             case 6:
-                return new IDAStar();
+                return new IDAStar(s);
             default:
-                return new BFS();
+                return new BFS(s);
         }
 
     }

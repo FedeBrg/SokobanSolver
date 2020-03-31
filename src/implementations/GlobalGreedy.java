@@ -11,6 +11,11 @@ import java.util.Queue;
 public class GlobalGreedy implements SearchMethod {
 
     static HashMap<String, Board> visited = new HashMap<>();
+    private Sokoban sokoban;
+
+    public GlobalGreedy(Sokoban sokoban) {
+        this.sokoban = sokoban;
+    }
 
     @Override
     public Board findPath(Board b, Sokoban s) {
@@ -61,6 +66,6 @@ public class GlobalGreedy implements SearchMethod {
 
     @Override
     public String toString() {
-        return "Global Greedy";
+        return String.format("Search method used: Global Greedy\nHeuristic used: %s",sokoban.getHeuristic());
     }
 }

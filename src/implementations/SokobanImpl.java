@@ -10,12 +10,24 @@ public class SokobanImpl implements Sokoban {
     private int depth;
     private boolean deadlockCheck;
     private int increment;
+    private int initialDepth;
+
 
     public SokobanImpl(Heuristic heuristic, int depth, boolean deadlockCheck, int increment) {
         this.heuristic = heuristic;
         this.depth = depth;
         this.deadlockCheck = deadlockCheck;
         this.increment = increment;
+        this.initialDepth = depth;
+    }
+
+    public int getInitialDepth() {
+        return initialDepth;
+    }
+
+    @Override
+    public Heuristic getHeuristic() {
+        return heuristic;
     }
 
     public boolean isDeadlockCheck() {

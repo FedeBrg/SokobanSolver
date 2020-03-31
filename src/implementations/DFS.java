@@ -8,6 +8,11 @@ import java.util.HashMap;
 
 public class DFS implements SearchMethod {
     static HashMap<String, Board> visited = new HashMap<>();
+    private Sokoban sokoban;
+
+    public DFS(Sokoban sokoban) {
+        this.sokoban = sokoban;
+    }
 
     @Override
     public Board findPath(Board b, Sokoban s) {
@@ -49,6 +54,6 @@ public class DFS implements SearchMethod {
 
     @Override
     public String toString() {
-        return "DFS";
+        return "Search method used: DFS";
     }
 }

@@ -21,7 +21,7 @@ public class Utilities {
             if(boardArray[i] == '.' || boardArray[i] == 'O') {
                 p = new Point(i % board.getBoardSizex(), i / board.getBoardSizex());
                 bins.add(p);
-            } else if(boardArray[i] == '$'){
+            } else if(boardArray[i] == '$' ){
                 p = new Point(i % board.getBoardSizex(), i / board.getBoardSizex());
                 boxes.add(p);
             }

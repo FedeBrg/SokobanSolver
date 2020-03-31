@@ -12,7 +12,11 @@ public class IDAStar implements SearchMethod {
 
     private Queue<Board> boardQueue = new PriorityQueue<>();
     private HashMap<String, Integer> specialVisited = new HashMap<>();
+    private Sokoban sokoban;
 
+    public IDAStar(Sokoban sokoban) {
+        this.sokoban = sokoban;
+    }
 
     @Override
     public Board findPath(Board b, Sokoban s) {
@@ -104,6 +108,6 @@ public class IDAStar implements SearchMethod {
     }
     @Override
     public String toString() {
-        return "IDA*";
+        return String.format("Search method used: IDA*\nHeuristic used: %s",sokoban.getHeuristic());
     }
 }
