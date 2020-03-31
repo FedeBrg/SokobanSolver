@@ -24,24 +24,18 @@ public class App {
         int t = 0;
         while(t < board.length) {
             sb.append(String.format("\n------- PASO N° %d -------\n",(t/(b.getBoardSizex()*b.getBoardSizey()))));
-            //System.out.printf("\n------- PASO N° %d -------\n",(t/(b.getBoardSizex()*b.getBoardSizey())));
-
             while (j < aux.length) {
                 for (int i = 0; i < b.getBoardSizex(); i++) {
                     if(board[t] == 'x'){
                         sb.append(' ');
-                        //System.out.print(' ');
                     }
                     else{
                         sb.append(board[t]);
-                        //System.out.print(board[t]);
-
                     }
                     j++;
                     t++;
                 }
                 sb.append('\n');
-                //System.out.println();
             }
             j=0;
         }
@@ -69,7 +63,7 @@ public class App {
 
         Properties prop = new Properties();
         try {
-            FileInputStream fis = new FileInputStream("config5.properties");
+            FileInputStream fis = new FileInputStream("config.properties");
             prop.load(fis);
 
         } catch (IOException e) {
@@ -128,46 +122,6 @@ public class App {
         System.out.printf("Total runtime: %dms\n" ,tf-t0);
         System.out.printf("%s\n",sm);
 
-
-
-        String level2 = "      ###      " +
-                        "      #.#      " +
-                        "  #####.#####  " +
-                        " ##         ## " +
-                        "##  # # # #  ##" +
-                        "#  ##     ##  #" +
-                        "# ##  # #  ## #" +
-                        "#     $@$     #" +
-                        "####  ###  ####" +
-                        "   #### ####   ";
-
-        String level3 = " ###########     " +
-                        "##         ##    " +
-                        "#  $     $  #    " +
-                        "# $# #.# #$ #    " +
-                        "#    # #    #####" +
-                        "#  ###.###  #   #" +
-                        "#  . .@. .      #" +
-                        "#  ###.###  #   #" +
-                        "#    # #    #####" +
-                        "# $# #.# #$ #    " +
-                        "#  $     $  #    " +
-                        "##         ##    " +
-                        " ###########     ";
-
-        String level4 = "     #####   " +
-                        "     #   #   " +
-                        "     #   #   " +
-                        "#### #   #   " +
-                        "#  ####$#####" +
-                        "#           #" +
-                        "# .## # ##. #" +
-                        "#           #" +
-                        "#####$####  #" +
-                        "   #   # ####" +
-                        "   # @ #     " +
-                        "   #   #     " +
-                        "   #####     ";
     }
 
     private static Heuristic getHeuristic(int heuristic) {

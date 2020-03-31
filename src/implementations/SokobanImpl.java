@@ -30,10 +30,6 @@ public class SokobanImpl implements Sokoban {
         return heuristic;
     }
 
-    public boolean isDeadlockCheck() {
-        return deadlockCheck;
-    }
-
     public int getDepth(){
         return depth;
     }

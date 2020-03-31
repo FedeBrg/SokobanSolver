@@ -38,7 +38,7 @@ public class GlobalGreedy implements SearchMethod {
             if (Utilities.isSolution(currentBoard)) {
                 System.out.printf("Solution found!\n");
                 System.out.printf("Solution cost: %d\n",(currentBoard.getSolution().length()/currentBoard.getBoardSizex()/currentBoard.getBoardSizey())-1);
-                System.out.printf("Expanded nodes: %d\n",i);
+                System.out.printf("Expanded nodes: %d\n",visited.size());
                 System.out.printf("Nodes in frontier: %d\n",boardQueue.size());
                 boardQueue.clear();
                 return currentBoard;
@@ -46,7 +46,6 @@ public class GlobalGreedy implements SearchMethod {
 
             i++;
             visited.put(currentBoard.getBoard(), currentBoard);
-//            currentBoard.printBoard(cols);
 
             for (int[] direction : directions) {
                 if ((resultBoard = s.move(currentBoard, direction[0], direction[1])) != null) {

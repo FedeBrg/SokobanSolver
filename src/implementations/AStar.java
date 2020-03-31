@@ -51,7 +51,6 @@ public class AStar implements SearchMethod {
                 if ((resultBoard =s.move(currentBoard, direction[0], direction[1])) != null) {
                     resultBoard.setHeuristic(s.getHeuristic(resultBoard));
                     resultBoard.setCost(currentBoard.getCost()+1);
-//                    System.out.println(currentBoard.getCost());
                     boardQueue.add(resultBoard);
                 }
             }
