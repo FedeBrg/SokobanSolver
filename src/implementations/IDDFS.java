@@ -55,10 +55,12 @@ public class IDDFS implements SearchMethod {
 
             for (int[] direction : directions) {
                 if ((resultBoard = s.move(b, direction[0], direction[1])) != null) {
-                    frontier++;
                     nextStep = findPathWrapper(resultBoard, s, directions, depth - 1,frontier);
                     if(nextStep != null){
                         return nextStep;
+                    }
+                    else{
+                        frontier++;
                     }
                 }
             }

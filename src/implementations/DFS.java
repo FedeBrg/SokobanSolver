@@ -40,10 +40,12 @@ public class DFS implements SearchMethod {
             visited.put(b.getBoard(), b);
             for (int[] direction : directions) {
                 if ((resultBoard = s.move(b, direction[0], direction[1])) != null) {
-                    frontier++;
                     nextStep = findPathDFS(resultBoard,s,frontier);
                     if (nextStep != null){
                         return nextStep;
+                    }
+                    else{
+                        frontier++;
                     }
                 }
             }
