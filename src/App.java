@@ -69,7 +69,7 @@ public class App {
 
         Properties prop = new Properties();
         try {
-            FileInputStream fis = new FileInputStream("config.properties");
+            FileInputStream fis = new FileInputStream("config5.properties");
             prop.load(fis);
 
         } catch (IOException e) {
