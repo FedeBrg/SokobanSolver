@@ -29,7 +29,6 @@ public class IDAStar implements SearchMethod {
 
             /* Hasta que encontremos un estado con f mayor... */
             while(currentBoard.getHeuristic() + currentBoard.getCost() <= limit){
-                //System.out.printf("LIMIT = %d\n", limit);
 
                 /* Buscamos la solución */
                 resultBoard = findPathIDAStar(currentBoard, limit, directions, s);
@@ -62,6 +61,10 @@ public class IDAStar implements SearchMethod {
 
         /* Si es solución llevamos devolvemos el nodo, q tiene todo el camino */
         if(Utilities.isSolution(b)){
+            System.out.print("Solution found!\n");
+            System.out.printf("Solution cost: %d\n",(b.getSolution().length()/b.getBoardSizex()/b.getBoardSizey())-1);
+            System.out.printf("Expanded nodes: %d\n",specialVisited.size()+1);
+            System.out.printf("Nodes in frontier: %d\n",boardQueue.size());
             return b;
         }
 
