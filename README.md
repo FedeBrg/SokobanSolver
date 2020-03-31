@@ -33,6 +33,8 @@ Works like Manhattan but two boxes can not use the same goal. It calculates ever
 
 ### depth
 - Maximum depth used for IDDFS
+### iddfsInc
+- Increment on next IDDFS iteration
 
 ### boardx/boardy
 - Size of the map along the x and y axis respectively
