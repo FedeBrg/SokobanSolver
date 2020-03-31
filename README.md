@@ -58,3 +58,6 @@ For this example:<br>
 - boardy = 10
 - playerx = 7
 - playery = 7
+
+## Examples
+The provided example config.properties files in the "Examples" folders are interesting for different reasons, like size and number of boxes, these help show the strengths and shortcomings of the implemented methods and heuristics.
