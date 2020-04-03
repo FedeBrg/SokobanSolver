@@ -98,12 +98,25 @@ public class App {
             int boardx = Integer.parseInt(prop.getProperty("boardx"));
             int boardy = Integer.parseInt(prop.getProperty("boardy"));
 
+            if(level.length() != boardx*boardy){
+                System.out.println("Error in boardx and/or boardy");
+                System.exit(-1);
+            }
+            else {
+                char c = level.charAt(playery * boardx + playerx);
+                if(c != '@' && c != 'O'){
+                    System.out.println("Ivalid player position");
+                    System.exit(-1);
+
+                }
+            }
             b = new BoardImpl(level,level,boardx,boardy,playerx,playery);
 
         }catch (NumberFormatException e){
             System.out.println("Missing parameters in config file!");
             System.exit(-1);
         }
+
 
 
         b.setHeuristic(h.getHeuristic(b));
