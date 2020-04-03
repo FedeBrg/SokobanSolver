@@ -59,6 +59,7 @@ public class App {
         int heuristic = 0;
         int depth = 0;
         int increment = 0;
+        boolean optimization = false;
         boolean deadlockCheck = false;
 
         Properties prop = new Properties();
@@ -75,6 +76,7 @@ public class App {
             heuristic = Integer.parseInt(prop.getProperty("heuristic"));
             depth = Integer.parseInt(prop.getProperty("depth"));
             deadlockCheck = Integer.parseInt(prop.getProperty("deadlockCheck")) == 1;
+            optimization = Integer.parseInt(prop.getProperty("optimization")) == 1;
             increment = Integer.parseInt(prop.getProperty("iddfsInc"));
 
         } catch (NumberFormatException e){
@@ -83,8 +85,8 @@ public class App {
         }
 
         Heuristic h = getHeuristic(heuristic);
-        Sokoban s = new SokobanImpl(h,depth,deadlockCheck, increment);
-        SearchMethod sm = getSearchMethod(searchMethod,s);
+        Sokoban s = new SokobanImpl(h, depth, deadlockCheck, optimization, increment);
+        SearchMethod sm = getSearchMethod(searchMethod, s);
 
 
         Board b = new BoardImpl("","",0,0,0,0);

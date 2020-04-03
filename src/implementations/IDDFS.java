@@ -22,7 +22,9 @@ public class IDDFS implements SearchMethod {
         Board toReturn = null;
 
         while(toReturn == null){
-            specialVisited.clear();
+            if(!s.isOptimized()){
+                specialVisited.clear();
+            }
             toReturn = findPathWrapper(b, s, directions, s.getDepth()+(i*s.getIncrement()),0);
             i++;
         }
@@ -39,6 +41,7 @@ public class IDDFS implements SearchMethod {
             System.out.printf("Solution cost: %d\n",(b.getSolution().length()/b.getBoardSizex()/b.getBoardSizey())-1);
             System.out.printf("Expanded nodes: %d\n",specialVisited.size()+1);
             System.out.printf("Nodes in frontier: %d\n",frontier);
+            System.out.printf("Algorithm optimized: %b\n", s.isOptimized());
             return b;
         }
 

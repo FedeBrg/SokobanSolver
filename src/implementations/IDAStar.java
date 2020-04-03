@@ -21,18 +21,23 @@ public class IDAStar implements SearchMethod {
     @Override
     public Board findPath(Board b, Sokoban s) {
         int [][] directions = {{1,0},{0,1},{-1,0},{0,-1}};
-        int limit = 0;
         Board currentBoard;
         Board resultBoard;
         boardQueue.add(b);
         currentBoard = boardQueue.peek();
-        limit = currentBoard.getCost() + currentBoard.getHeuristic();
+        int limit = currentBoard.getCost() + currentBoard.getHeuristic();
 
         /* Mientras tengamos chance de encontrar la solucion */
         while(!boardQueue.isEmpty()){
 
             /* Hasta que encontremos un estado con f mayor... */
             while(currentBoard.getHeuristic() + currentBoard.getCost() <= limit){
+
+                if(!s.isOptimized()){
+                    specialVisited.clear();
+                }
+
+                System.out.printf("LIMIT = %d\n", limit);
 
                 /* Buscamos la solución */
                 resultBoard = findPathIDAStar(currentBoard, limit, directions, s);
@@ -69,6 +74,7 @@ public class IDAStar implements SearchMethod {
             System.out.printf("Solution cost: %d\n",(b.getSolution().length()/b.getBoardSizex()/b.getBoardSizey())-1);
             System.out.printf("Expanded nodes: %d\n",specialVisited.size()+1);
             System.out.printf("Nodes in frontier: %d\n",boardQueue.size());
+            System.out.printf("Algorithm optimized: %b\n", s.isOptimized());
             return b;
         }
 
@@ -76,7 +82,7 @@ public class IDAStar implements SearchMethod {
         *  Si no esta en la cola, lo agrego para que sea el nuevo limite
         */
         else if(totalCost > limit){
-            if(!specialVisited.containsKey(b.getBoard())){
+            if(!specialVisited.containsKey(b.getBoard()) && !boardQueue.contains(b)){
                 boardQueue.add(b);
             }
             return null;
