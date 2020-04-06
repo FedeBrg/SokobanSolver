@@ -46,7 +46,6 @@ public class App {
             myWriter.close();
         } catch (IOException e) {
             System.out.println("An error occurred.");
-            e.printStackTrace();
         }
     }
 
@@ -68,7 +67,7 @@ public class App {
             prop.load(fis);
 
         } catch (IOException e) {
-            e.printStackTrace();
+            System.out.println("Can't open config file.\n");
         }
 
         try{
@@ -128,6 +127,7 @@ public class App {
             sol = sm.findPath(b,s);
         } catch(OutOfMemoryError e){
             System.out.println("System ran out of memory.");
+            System.exit(-1);
         }
 
         long tf = System.currentTimeMillis();

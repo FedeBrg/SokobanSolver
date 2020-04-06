@@ -37,8 +37,6 @@ public class IDAStar implements SearchMethod {
                     specialVisited.clear();
                 }
 
-                System.out.printf("LIMIT = %d\n", limit);
-
                 /* Buscamos la solución */
                 resultBoard = findPathIDAStar(currentBoard, limit, directions, s);
 
@@ -82,7 +80,7 @@ public class IDAStar implements SearchMethod {
         *  Si no esta en la cola, lo agrego para que sea el nuevo limite
         */
         else if(totalCost > limit){
-            if(!specialVisited.containsKey(b.getBoard()) && !boardQueue.contains(b)){
+            if(!specialVisited.containsKey(b.getBoard())){
                 boardQueue.add(b);
             }
             return null;
