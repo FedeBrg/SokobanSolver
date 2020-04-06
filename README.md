@@ -1,6 +1,13 @@
 ![Alt text](sulley.png?raw=true "Sullivan")
 
 A rather smart Sokoban Solver
+
+## How to run
+### Clone into IDE
+As simple as that, keep the file structure as is and you should have no problem
+### JAR
+In the executables folder theres a .jar to run the Solver, make sure there is a valid properties file named "config.properties" at the same level as the .jar. To execute just run:
+`java -jar SokobanSolver.jar`
 ## Cost function
 Given the characteristics of the game, there is no cost difference for the possible player actions, so we decided to deal with the problem using a Uniform Cost function g, where g(n) = 1 for every n action.
 ## Heuristics
@@ -64,4 +71,4 @@ For this example:<br>
 - playery = 7
 
 ## Examples
-The provided example config.properties files in the "Examples" folders are interesting for different reasons, like size and number of boxes, these help show the strengths and shortcomings of the implemented methods and heuristics.
+The provided example config.properties files in the "executables/examples" folder are interesting for different reasons, like size and number of boxes, these help show the strengths and shortcomings of the implemented methods and heuristics.
