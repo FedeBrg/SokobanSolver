@@ -31,6 +31,10 @@ Works like Manhattan but two boxes can not use the same goal. It calculates ever
 - 1 - Activate checks to prevent deadlocks (Default)
 - 2 - Deadlock scenarios are considered valid
 
+### optimization
+- 0 - Iterative Deepening search methods will NOT be optimized
+- 1 - Iterative Deepening search methods be optimized
+
 ### depth
 - Maximum depth used for IDDFS
 ### iddfsInc
